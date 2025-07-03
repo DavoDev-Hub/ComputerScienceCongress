@@ -36,7 +36,7 @@ router.put('/:id', function(req, res) {
     if (index === -1) return res.status(404).json({ mensaje: 'No encontrada' });
 
     actividades[index].nombre = req.body.nombre;
-    actividades[index].tipo = req.tipo.nombre;
+    actividades[index].tipo = req.body.tipo;
 
     res.json(actividades[index]);
 
