@@ -39,7 +39,7 @@ Automatizar el proceso de inscripción y control de asistencia en los congresos 
 ### Despliegue
 
 - Vercel (Frontend)
-- Railway o Render (Backend + DB)
+- Supabase (Backend + DB)
 - Azure (opcional, especialmente para integración con cuentas Microsoft)
 
 ## Estructura del proyecto (propuesta)
