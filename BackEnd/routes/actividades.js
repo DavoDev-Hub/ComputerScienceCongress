@@ -42,4 +42,14 @@ router.put('/:id', function(req, res) {
 
 });
 
+router.delete('/:id', function(req, res) {
+    const id = parseInt(req.params.id);
+    const index = actividades.findIndex(a => a.id === id);
+    if (index === -1) return res.status(404).json({ mensaje: 'No encontrada' });
+
+    const actividadEliminada = actividades.splice(index, 1);
+
+    res.json({ mensaje: 'Eliminada', actividad: actividadEliminada });
+});
+
 module.exports = router;
