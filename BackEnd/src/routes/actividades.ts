@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+import { Router, Request, Response } from "express";
+const router = Router();
+
 
 let actividades = [
     { id: 1, nombre: 'Taller de React', tipo: 'academico' },
@@ -52,4 +53,4 @@ router.delete('/:id', function(req, res) {
     res.json({ mensaje: 'Eliminada', actividad: actividadEliminada });
 });
 
-module.exports = router;
+export default router;
