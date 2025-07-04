@@ -17,6 +17,7 @@ export const getActividadById = async (req: Request, res: Response) => {
     if (!actividad) {
         return res.status(404).json({ error: 'Actividad no encontrada' });
     }
+    res.json(actividad);
 }
 
 export const postActividad = async (req: Request, res: Response) => {
