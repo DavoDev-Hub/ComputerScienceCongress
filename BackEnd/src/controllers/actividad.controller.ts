@@ -24,15 +24,21 @@ export const postActividad = async (req: Request, res: Response) => {
 
     if (!result.success) {
         return res.status(400).json({
-            error: 'Datos invalidos', detalles: result.error.format()
+            error: "Datos inválidos",
+            detalles: result.error.format(),
         });
     }
-    const nueva = await prisma.actividad.create({
-        data: result.data
-    });
 
-    res.status(201).json(nueva);
+    try {
+        const nueva = await prisma.actividad.create({
+            data: result.data,
+        });
 
+        res.status(201).json(nueva);
+    } catch (error) {
+        console.error("Error al crear actividad:", error);
+        res.status(500).json({ error: "Error del servidor" });
+    }
 };
 
 // Put an activity
@@ -69,7 +75,6 @@ export const deleteActividad = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(400).json({ mensaje: 'Actividad no encontrada' })
     }
-
 };
 
 
