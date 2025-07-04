@@ -1,13 +1,18 @@
-import express from 'express';
-import actividadesRouter from './routes/actividades';
+import express from "express";
+import actividadRoutes from "./routes/actividad.routes";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use('/actividades', actividadesRouter);
 
-app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
+app.use("/api/actividades", actividadRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
