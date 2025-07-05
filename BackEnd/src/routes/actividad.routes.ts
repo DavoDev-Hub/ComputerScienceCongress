@@ -1,4 +1,6 @@
 import { Router } from "express";
+
+const router = Router();
 import {
     getActividades,
     getActividadById,
@@ -7,7 +9,6 @@ import {
     deleteActividad
 } from "../controllers/actividad.controller";
 
-const router = Router();
 
 router.get("/", getActividades);
 router.get("/:id", getActividadById);
