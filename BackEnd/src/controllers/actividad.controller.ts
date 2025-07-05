@@ -9,7 +9,7 @@ export const getActividades = async (req: Request, res: Response) => {
     res.json(actividades);
 };
 
-// Get an activity by id
+/// Get an activity by id
 export const getActividadById = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const actividad = await prisma.actividad.findUnique({ where: { id } });

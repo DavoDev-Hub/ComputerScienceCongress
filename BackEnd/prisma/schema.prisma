@@ -9,11 +9,22 @@ datasource db {
 }
 
 model Actividad {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   nombre      String
   descripcion String
   tipo        String
-  horaInicio  String
-  horaFin     String
+  imagen      String?   
+  horaInicio  DateTime  
+  horaFin     DateTime 
   cupo        Int
 }
+
+model Conferencia {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  imagen      String?  
+  horaInicio  DateTime 
+  horaFin     DateTime
+}
+
