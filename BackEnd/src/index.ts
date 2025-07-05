@@ -1,5 +1,7 @@
 import express from "express";
 import actividadRoutes from "./routes/actividad.routes";
+
+
 import dotenv from "dotenv";
 
 dotenv.config();
