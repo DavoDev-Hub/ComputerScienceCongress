@@ -1,18 +1,17 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { conferenciaSchema } from "../schemas/conferencia.schema";
-import { actividadSchema } from "../schemas/actividad.schema";
 const prisma = new PrismaClient()
 
 // Get todas las conferencias 
 
-export const getConferencia = (async (res: Response, req: Request) => {
+export const getConferencia = (async (req: Request, res: Response) => {
     const conferencias = await prisma.conferencia.findMany();
     res.json(conferencias);
 });
 
 
-export const getConferenciaById = (async (res: Response, req: Request) => {
+export const getConferenciaById = (async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id);
     const conferencia = await prisma.conferencia.findUnique({ where: { id } })
@@ -24,7 +23,7 @@ export const getConferenciaById = (async (res: Response, req: Request) => {
 });
 
 
-export const postConferencia = (async (res: Response, req: Request) => {
+export const postConferencia = (async (req: Request, res: Response) => {
     const result = conferenciaSchema.safeParse(req.body)
 
     if (!result.success) {
@@ -46,7 +45,7 @@ export const postConferencia = (async (res: Response, req: Request) => {
 
 
 
-export const putConferencia = (async (res: Response, req: Request) => {
+export const putConferencia = (async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const result = actividadSchema.safeParse(req.body);
 
@@ -70,7 +69,7 @@ export const putConferencia = (async (res: Response, req: Request) => {
 });
 
 
-export const deleteConferencia = (async (res: Response, req: Request) => {
+export const deleteConferencia = (async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
 
     try {
