@@ -8,7 +8,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Actividad {
+model actividad {
   id          Int       @id @default(autoincrement())
   nombre      String
   descripcion String
@@ -19,7 +19,7 @@ model Actividad {
   cupo        Int
 }
 
-model Conferencia {
+model conferencia {
   id          Int       @id @default(autoincrement())
   nombre      String
   descripcion String
