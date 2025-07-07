@@ -70,9 +70,9 @@ package.json
 
 ## Estado del proyecto
 
-Documentación en desarrollo. La implementación comenzará una vez definidos los modelos de datos y casos de uso.
+Documentación en desarrollo. 
 
 ## Licencia
 
-Uso académico y educativo. Puede adaptarse con fines personales o de aprendizaje.
+Uso académico y educativo. 
 
