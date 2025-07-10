@@ -11,11 +11,12 @@ datasource db {
 model actividad {
   id          Int      @id @default(autoincrement())
   nombre      String
+  ponente     String?
   descripcion String
   tipo        String
-  imagen      String?
-  horaInicio  DateTime
-  horaFin     DateTime
+  lugar       String? 
+  fecha       DateTime?
+  hora        DateTime?
   cupo        Int
 
   inscripcion inscripcion[]
@@ -39,9 +40,9 @@ model conferencia {
   id          Int      @id @default(autoincrement())
   nombre      String
   descripcion String
-  imagen      String?
-  horaInicio  DateTime
-  horaFin     DateTime
+  lugar       String?
+  fecha       DateTime?
+  hora        DateTime?
 
   qr_generado qr_generado[]
   asistencia  asistencia[]
