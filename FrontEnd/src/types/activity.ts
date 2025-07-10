@@ -3,9 +3,9 @@ export type Actividad = {
     nombre: string;
     descripcion: string;
     tipo: string;
-    imagen?: string;
-    horaInicio: string;
-    horaFin: string;
+    lugar: string;
+    fecha: string;
+    hora: string;
     cupo: number;
 };
 

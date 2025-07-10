@@ -18,11 +18,11 @@ export default function AdminDashboard() {
                 <ActivityCard
                     key={actividad.id}
                     nombre={actividad.nombre}
-                    horaInicio={actividad.horaInicio}
-                    horaFin={actividad.horaFin}
+                    fecha={actividad.fecha}
+                    hora={actividad.hora}
                     inscritos={actividad.inscritos ?? 0}
                     cupo={actividad.cupo}
-                    tipo="actividad"
+                    tipo="academico"
                     onEdit={() => console.log("Editar", actividad.id)}
                     onDelete={() => console.log("Eliminar", actividad.id)}
                     onView={() => console.log("Ver asistentes", actividad.id)}
