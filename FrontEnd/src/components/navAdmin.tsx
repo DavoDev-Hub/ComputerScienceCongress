@@ -66,5 +66,4 @@ function navAdmin() {
     );
 }
 
-
 export default navAdmin
