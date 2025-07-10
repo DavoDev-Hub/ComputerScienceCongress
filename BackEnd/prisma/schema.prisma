@@ -15,7 +15,8 @@ model actividad {
   tipo        String
   lugar       String? 
   fecha       DateTime?
-  hora        DateTime?
+  horaInicio  DateTime?
+  horaFin     DateTime?
   cupo        Int
 
   inscripcion inscripcion[]
@@ -42,7 +43,8 @@ model conferencia {
   descripcion String
   lugar       String?
   fecha       DateTime?
-  hora        DateTime?
+  horaInicio  DateTime?
+  horaFin     DateTime?
 
   qr_generado qr_generado[]
   asistencia  asistencia[]

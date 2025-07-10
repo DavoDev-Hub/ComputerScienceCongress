@@ -1,12 +1,15 @@
 import React from 'react'
 
+
+
+
 type ActivityCardProps = {
     nombre: string
-    horaInicio: string
-    horaFin: string
+    fecha: string
+    hora: string
     inscritos: number
     cupo: number
-    tipo: 'conferencia' | 'actividad'
+    tipo: 'academico' | 'recreativo'
     onEdit: () => void
     onDelete: () => void
     onView: () => void
@@ -14,8 +17,8 @@ type ActivityCardProps = {
 
 export const ActivityCard: React.FC<ActivityCardProps> = ({
     nombre,
-    horaInicio,
-    horaFin,
+    fecha,
+    hora,
     inscritos,
     cupo,
     tipo,
@@ -23,7 +26,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     onDelete,
     onView
 }) => {
-    const icon = tipo === 'conferencia' ? '📘' : '🎮'
+    const icon = tipo === 'academico' ? '📘' : '🎮'
 
     return (
         <div className="flex justify-between items-center bg-white p-4 rounded shadow mb-2">
@@ -32,7 +35,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 <div>
                     <h3 className="font-semibold">{nombre}</h3>
                     <p className="text-sm text-gray-500">
-                        {horaInicio} - {horaFin} · {inscritos}/{cupo} inscritos
+                        {fecha} - {hora} · {inscritos}/{cupo} inscritos
                     </p>
                 </div>
             </div>
