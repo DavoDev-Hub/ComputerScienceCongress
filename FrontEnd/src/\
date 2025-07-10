@@ -20,7 +20,7 @@ export default function AdminDashboard() {
                     nombre={actividad.nombre}
                     fecha={actividad.fecha}
                     horaInicio={actividad.horaInicio}
-                    horaFin={actividad.horaFin}
+                    inscritos={actividad.inscritos ?? 0}
                     cupo={actividad.cupo}
                     tipo="academico"
                     onEdit={() => console.log("Editar", actividad.id)}

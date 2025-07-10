@@ -5,7 +5,8 @@ export type Actividad = {
     tipo: string;
     lugar: string;
     fecha: string;
-    hora: string;
+    horaInicio: string;
+    horaFin: string;
     cupo: number;
 };
 

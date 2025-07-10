@@ -1,13 +1,10 @@
 import React from 'react'
 
-
-
-
 type ActivityCardProps = {
     nombre: string
     fecha: string
-    hora: string
-    inscritos: number
+    horaInicio: string
+    horaFin: string
     cupo: number
     tipo: 'academico' | 'recreativo'
     onEdit: () => void
@@ -18,15 +15,33 @@ type ActivityCardProps = {
 export const ActivityCard: React.FC<ActivityCardProps> = ({
     nombre,
     fecha,
-    hora,
-    inscritos,
+    horaInicio,
+    horaFin,
     cupo,
     tipo,
     onEdit,
     onDelete,
     onView
 }) => {
+
     const icon = tipo === 'academico' ? '📘' : '🎮'
+
+    const formattedDate = new Date(fecha).toLocaleDateString("es-MX", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    })
+
+    const formattedHoraInicio = new Date(horaInicio).toLocaleTimeString("es-MX", {
+        hour: '2-digit',
+        minute: '2-digit'
+    })
+
+    const formattedHoraFin = new Date(horaFin).toLocaleTimeString("es-MX", {
+        hour: '2-digit',
+        minute: '2-digit'
+    })
+
 
     return (
         <div className="flex justify-between items-center bg-white p-4 rounded shadow mb-2">
@@ -35,7 +50,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 <div>
                     <h3 className="font-semibold">{nombre}</h3>
                     <p className="text-sm text-gray-500">
-                        {fecha} - {hora} · {inscritos}/{cupo} inscritos
+                        {formattedDate} | {formattedHoraInicio} - {formattedHoraFin} | "0"/{cupo} inscritos
                     </p>
                 </div>
             </div>
