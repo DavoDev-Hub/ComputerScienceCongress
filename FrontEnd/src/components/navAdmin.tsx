@@ -4,7 +4,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Settings, Users, QrCode, LogOut } from 'lucide-react'
 import logoUaa from '../assets/logo_uaa.svg'
 import '../App.css'
-function navEst() {
+
+
+function navAdmin() {
     return (
         <nav className="bg-white border-b border-gray-200 px-4 py-3">
             <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -61,8 +63,8 @@ function navEst() {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
 
-export default navEst
 
+export default navAdmin
