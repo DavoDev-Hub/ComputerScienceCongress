@@ -1,17 +1,15 @@
-import { BrowserRouter, Routes } from "react-router-dom";
-import NavEst from './components/nav_est';
-import './index.css'
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
     return (
         <BrowserRouter>
-            <NavEst />
             <Routes>
-
-
+                <Route path="/admin" element={<AdminDashboard />} />
             </Routes>
         </BrowserRouter>
-    );
+    )
 }
+
 export default App
+
