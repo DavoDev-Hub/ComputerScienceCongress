@@ -6,6 +6,7 @@ export const conferenciaSchema = z.object({
     descripcion: z.string().min(5, "La descripción debe tener al menos 5 caracteres"),
     lugar: z.string().min(3, "El lugar debe tener al menos 3 caracteres"),
     fecha: z.coerce.date({ invalid_type_error: "La fecha debe ser una fecha válida" }),
-    hora: z.coerce.date({ invalid_type_error: "La hora debe ser una fecha/hora válida" }),
+    horaInicio: z.coerce.date({ invalid_type_error: "La hora debe ser una fecha/hora válida" }),
+    horaFin: z.coerce.date({ invalid_type_error: "La hora debe ser una fecha/hora válida" }),
 });
 
