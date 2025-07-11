@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Card, CardContent } from "../components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
 import { Button } from "../components/ui/button"
+import { ModalCrearActividad } from "../components/modalActivityAdd"
+
 
 export default function AdminDashboard() {
     const [actividades, setActividades] = useState<Actividad[]>([])
@@ -25,9 +27,11 @@ export default function AdminDashboard() {
                     <h2 className="text-3xl font-bold text-gray-900">Panel de Administración</h2>
                     <p className="text-gray-600">Gestiona todas las actividades del congreso</p>
                 </div>
-                <Button className="bg-uaa-blue hover:bg-uaa-blue/90 text-white">
-                    Agregar Actividad
-                </Button>
+                <ModalCrearActividad
+                    onCrear={(nuevaActividad) => {
+                        setActividades((prev) => [...prev, { id: Date.now(), ...nuevaActividad }])
+                    }}
+                />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -108,5 +112,6 @@ export default function AdminDashboard() {
             </Tabs>
         </div>
     )
+
 }
 
