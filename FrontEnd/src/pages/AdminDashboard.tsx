@@ -7,6 +7,8 @@ import { Card, CardContent } from "../components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
 import { Button } from "../components/ui/button"
 import { ModalCrearActividad } from "../components/modalActivityAdd"
+import { toast } from "sonner"
+import { eliminarActividad } from "../services/api"
 
 
 export default function AdminDashboard() {
@@ -20,6 +22,18 @@ export default function AdminDashboard() {
         return actividades.filter((actividad) => tipo === "all" || actividad.tipo === tipo)
     }
 
+
+    const handleDelete = async (id: string) => {
+        try {
+            await eliminarActividad(id)
+            toast.success("Actividad eliminada exitosamente")
+            setActividades((prev) => prev.filter((act) => act.id !== id))
+        } catch (error) {
+            toast.error("Error al eliminar la actividad")
+        }
+    }
+
+
     return (
         <div className="max-w-7xl mx-auto p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -27,11 +41,7 @@ export default function AdminDashboard() {
                     <h2 className="text-3xl font-bold text-gray-900">Panel de Administración</h2>
                     <p className="text-gray-600">Gestiona todas las actividades del congreso</p>
                 </div>
-                <ModalCrearActividad
-                    onCrear={(nuevaActividad) => {
-                        setActividades((prev) => [...prev, { id: Date.now(), ...nuevaActividad }])
-                    }}
-                />
+                <ModalCrearActividad onSuccess={() => getActividades().then(setActividades)} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -102,7 +112,7 @@ export default function AdminDashboard() {
                                     cupo={actividad.cupo}
                                     tipo={actividad.tipo}
                                     onEdit={() => console.log("Editar", actividad.id)}
-                                    onDelete={() => console.log("Eliminar", actividad.id)}
+                                    onDelete={() => handleDelete(actividad.id)}
                                     onView={() => console.log("Ver asistentes", actividad.id)}
                                 />
                             ))}
