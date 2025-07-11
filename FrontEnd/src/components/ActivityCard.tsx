@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Badge } from './ui/badge'
 import { Progress } from './ui/progress'
 import { Users, MapPin } from 'lucide-react'
+import { DialogConfirmDelete } from "./DialogConfirmDelete"
 
 type ActivityCardProps = {
     nombre: string
@@ -79,9 +80,14 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                     <Button variant="outline" onClick={onEdit}>
                         Editar
                     </Button>
-                    <Button variant="destructive" onClick={onDelete}>
-                        Eliminar
-                    </Button>
+                    <DialogConfirmDelete
+                        onConfirm={onDelete}
+                        trigger={
+                            <Button variant="destructive" size="sm">
+                                Eliminar
+                            </Button>
+                        }
+                    />
                 </div>
             </CardContent>
         </Card>

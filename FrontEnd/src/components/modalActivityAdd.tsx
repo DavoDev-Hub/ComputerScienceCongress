@@ -12,12 +12,15 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./ui/select"
+import { crearActividad } from "../services/api"
+import { toast } from "sonner"
+
 
 interface ModalCrearActividadProps {
-    onCrear: (actividad: any) => void
+    onSuccess: () => void
 }
 
-export function ModalCrearActividad({ onCrear }: ModalCrearActividadProps) {
+export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
     const [open, setOpen] = useState(false)
     const [formData, setFormData] = useState({
         nombre: "",
@@ -28,7 +31,7 @@ export function ModalCrearActividad({ onCrear }: ModalCrearActividadProps) {
         horaFin: "",
         cupo: "",
         ponente: "",
-        lugar: ""
+        lugar: "",
     })
 
     const isValid = Object.values(formData).every((val) => val.trim() !== "")
@@ -42,28 +45,51 @@ export function ModalCrearActividad({ onCrear }: ModalCrearActividadProps) {
         setFormData((prev) => ({ ...prev, tipo: value }))
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!isValid) return
 
-        onCrear({
+        const nuevaActividad = {
             ...formData,
             cupo: parseInt(formData.cupo),
             horaInicio: `${formData.fecha}T${formData.horaInicio}`,
             horaFin: `${formData.fecha}T${formData.horaFin}`
-        })
+        }
 
-        setFormData({
-            nombre: "",
-            tipo: "",
-            descripcion: "",
-            fecha: "",
-            horaInicio: "",
-            horaFin: "",
-            cupo: "",
-            ponente: "",
-            lugar: ""
-        })
-        setOpen(false)
+        try {
+            await crearActividad(nuevaActividad)
+            onSuccess()
+
+            toast("Actividad creada", {
+                description: `La actividad "${formData.nombre}" fue registrada exitosamente.`,
+                duration: 5000,
+                action: {
+                    label: "undo",
+                    onClick: () => {
+                        console.log("undo")
+                    }
+                }
+            })
+
+            setFormData({
+                nombre: "",
+                tipo: "",
+                descripcion: "",
+                fecha: "",
+                horaInicio: "",
+                horaFin: "",
+                cupo: "",
+                ponente: "",
+                lugar: ""
+            })
+            setOpen(false)
+        } catch (error) {
+            console.error("Error al crear actividad:", error)
+
+            toast("Error al crear actividad", {
+                description: "Ocurrió un problema al registrar la actividad.",
+                duration: 5000
+            })
+        }
     }
 
     return (
@@ -111,7 +137,13 @@ export function ModalCrearActividad({ onCrear }: ModalCrearActividadProps) {
                     <DialogClose asChild>
                         <Button variant="outline">Cancelar</Button>
                     </DialogClose>
-                    <Button onClick={handleSubmit} className="bg-uaa-blue text-white hover:bg-uaa-blue/90" disabled={!isValid}>Crear Actividad</Button>
+                    <Button
+                        onClick={handleSubmit}
+                        className="bg-uaa-blue text-white hover:bg-uaa-blue/90"
+                        disabled={!isValid}
+                    >
+                        Crear Actividad
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
