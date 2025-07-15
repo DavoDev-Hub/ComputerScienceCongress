@@ -26,6 +26,8 @@ interface ModalCrearActividadProps {
     initialData?: any
 }
 
+
+
 export function ModalCrearActividad({
     onSuccess,
     initialData
@@ -53,7 +55,6 @@ export function ModalCrearActividad({
                 horaInicio: initialData.horaInicio?.split("T")[1]?.slice(0, 5) || "",
                 horaFin: initialData.horaFin?.split("T")[1]?.slice(0, 5) || "",
                 cupo: initialData.cupo?.toString() || "",
-                ponente: initialData.ponente || "",
                 lugar: initialData.lugar || ""
             })
             setOpen(true)
