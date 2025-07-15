@@ -13,14 +13,14 @@ export async function crearConferencia(data: Conferencia) {
     return res.data
 }
 
-export async function eliminarActividad(id: string) {
+export async function eliminarConferencia(id: string) {
     const res = await fetch(`${API_BASE}/conferencias/${id}`, {
         method: "DELETE",
     })
     if (!res.ok) throw new Error("Error al eliminar la conferencia")
 }
 
-export async function editarActividad(id: string, data: Conferencia) {
+export async function editarConferencia(id: string, data: Conferencia) {
     const res = await axios.put(`${API_BASE}/conferencias/${id}`, data)
     return res.data
 }
