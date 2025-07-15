@@ -12,18 +12,27 @@ function navAdmin() {
             <div className="flex items-center justify-between max-w-7xl mx-auto">
                 <div className="flex items-center space-x-4">
                     <img src={logoUaa} alt="UAA" className="h-8 w-auto" />
-                    <h1 className="text-xl font-bold text-uaa-blue">CS Congress</h1>
+                    <h1 className="text-xl font-bold text-uaa-blue">LITC CONGRESO</h1>
                 </div>
 
                 <div className="flex items-center space-x-4">
                     <Button
-                        variant="default"
+                        variant="ghost"
                         size="sm"
-                        className="bg-uaa-blue hover:bg-uaa-blue hover:text-white"
+                        className="hover:bg-uaa-blue hover:text-white"
                     >
                         <Settings className="h-4 w-4 mr-2" />
-                        Panel Principal
+                        Panel Actividades
                     </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="hover:bg-uaa-blue hover:text-white"
+                    >
+                        <Settings className="h-4 w-4 mr-2" />
+                        Panel Conferencias
+                    </Button>
+
 
                     <Button
                         variant="ghost"

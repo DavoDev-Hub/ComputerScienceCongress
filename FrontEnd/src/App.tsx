@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import AdminDashboard from './pages/AdminDashboard'
+import ActivityPanel from './pages/ActivityPanel'
 import { Toaster } from 'sonner'
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
         <BrowserRouter>
             <Toaster richColors position="bottom-right" />
             <Routes>
-                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin" element={<ActivityPanel />} />
             </Routes>
         </BrowserRouter>
     )
