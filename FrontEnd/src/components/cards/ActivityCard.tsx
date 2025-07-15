@@ -1,10 +1,10 @@
 import React from 'react'
-import { Button } from './ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
-import { Badge } from './ui/badge'
-import { Progress } from './ui/progress'
+import { Button } from '../ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
+import { Badge } from '../ui/badge'
+import { Progress } from '../ui/progress'
 import { Users, MapPin } from 'lucide-react'
-import { DialogConfirmDelete } from "./DialogConfirmDelete"
+import { DialogConfirmDelete } from '../dialogs/DialogConfirmDelete'
 
 type ActivityCardProps = {
     nombre: string
@@ -31,7 +31,6 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
     tipo,
     onEdit,
     onDelete,
-    onView,
 }) => {
     const formattedDate = new Date(fecha).toLocaleDateString('es-MX', {
         year: 'numeric',

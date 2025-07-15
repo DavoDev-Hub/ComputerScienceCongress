@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { getActividades, eliminarActividad } from "../services/apiActivity"
 import type { Actividad } from "../types/activity"
-import { ActivityCard } from "../components/ActivityCard"
+import { ActivityCard } from "../components/cards/ActivityCard"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Card, CardContent } from "../components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
-import { ModalCrearActividad } from "../components/modalActivityAdd"
+import { ModalCrearActividad } from "../components/modals/modalActivityAdd"
 import { toast } from "sonner"
 
 function activityPanel() {

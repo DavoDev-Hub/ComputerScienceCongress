@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react"
 import type { Conferencia } from "../types/conference"
-import { ActivityCard } from "../components/ActivityCard"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
+import { getConferencias, eliminarConferencia } from "../services/apiConference"
+import { ConferenceCard } from "../components/cards/ConferenceCard"
 import { Card, CardContent } from "../components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
-import { ModalCrearActividad } from "../components/modalActivityAdd"
-import { getConferencias, eliminarConferencia, editarConferencia } from "../services/apiConference"
+import { ModalCrearConferencia } from "../components/modals/modalConferenceAdd"
 import { toast } from "sonner"
 
 function conferencePanel() {
@@ -35,15 +34,13 @@ function conferencePanel() {
     }
 
 
-
-
     return (
         <div className="max-w-7xl mx-auto p-6 space-y-6">
             <div>
                 <h2 className="text-3xl font-bold text-gray-900">Panel de Administración de Conferencias</h2>
                 <p className="text-gray-600">Gestiona todas las conferencias del congreso</p>
             </div>
-            <ModalCrearActividad onSuccess={fetchConferencias} />
+            <ModalCrearConferencia onSuccess={fetchConferencias} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Card>
@@ -91,9 +88,25 @@ function conferencePanel() {
                     </CardContent>
                 </Card>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                {conferencias.map((conferencia) => (
+                    <ConferenceCard
+                        key={conferencia.id}
+                        nombre={conferencia.nombre}
+                        ponente={conferencia.ponente}
+                        descripcion={conferencia.descripcion}
+                        fecha={conferencia.fecha}
+                        lugar={conferencia.lugar}
+                        horaInicio={conferencia.horaInicio}
+                        horaFin={conferencia.horaFin}
+                        onEdit={() => handleEdit(conferencia)}
+                        onDelete={() => handleDelete(conferencia.id)}
+                    />
+                ))}
+            </div>
 
             {editingConferencias && (
-                <ModalCrearActividad
+                <ModalCrearConferencia
                     onSuccess={() => {
                         fetchConferencias()
                         setEditingActividad(null)
