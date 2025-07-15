@@ -7,18 +7,18 @@ import {
     DialogFooter,
     DialogTrigger,
     DialogClose
-} from "./ui/dialog"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
+} from "../ui/dialog"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Textarea } from "../ui/textarea"
 import {
     Select,
     SelectTrigger,
     SelectValue,
     SelectContent,
     SelectItem
-} from "./ui/select"
-import { crearActividad, editarActividad } from "../services/apiActivity"
+} from "../ui/select"
+import { crearActividad, editarActividad } from "../../services/apiActivity"
 import { toast } from "sonner"
 
 interface ModalCrearActividadProps {
