@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getActividades, eliminarActividad } from "../services/api"
+import { getActividades, eliminarActividad } from "../services/apiActivity"
 import type { Actividad } from "../types/activity"
 import { ActivityCard } from "../components/ActivityCard"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
