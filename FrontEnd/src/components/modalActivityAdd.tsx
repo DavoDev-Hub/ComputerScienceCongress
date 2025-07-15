@@ -18,7 +18,7 @@ import {
     SelectContent,
     SelectItem
 } from "./ui/select"
-import { crearActividad, editarActividad } from "../services/api"
+import { crearActividad, editarActividad } from "../services/apiActivity"
 import { toast } from "sonner"
 
 interface ModalCrearActividadProps {
@@ -40,7 +40,6 @@ export function ModalCrearActividad({
         horaInicio: "",
         horaFin: "",
         cupo: "",
-        ponente: "",
         lugar: ""
     })
 
@@ -108,7 +107,6 @@ export function ModalCrearActividad({
                 horaInicio: "",
                 horaFin: "",
                 cupo: "",
-                ponente: "",
                 lugar: ""
             })
             setOpen(false)
@@ -201,11 +199,10 @@ export function ModalCrearActividad({
                             onChange={handleChange}
                         />
                     </div>
-
                     <Input
                         name="ponente"
                         placeholder="Ponente"
-                        value={formData.ponente}
+                        //        value={formData.ponente}
                         onChange={handleChange}
                     />
                     <Input
