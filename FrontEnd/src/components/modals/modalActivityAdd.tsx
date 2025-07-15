@@ -27,7 +27,6 @@ interface ModalCrearActividadProps {
 }
 
 
-
 export function ModalCrearActividad({
     onSuccess,
     initialData
@@ -200,12 +199,6 @@ export function ModalCrearActividad({
                             onChange={handleChange}
                         />
                     </div>
-                    <Input
-                        name="ponente"
-                        placeholder="Ponente"
-                        //        value={formData.ponente}
-                        onChange={handleChange}
-                    />
                     <Input
                         name="lugar"
                         placeholder="Lugar"

@@ -1,9 +1,9 @@
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Settings, Users, QrCode, LogOut } from 'lucide-react'
-import logoUaa from '../assets/logo_uaa.svg'
-import '../App.css'
+import logoUaa from './../../assets/logo_uaa.svg'
+import '../../App.css'
 
 
 function navAdmin() {
