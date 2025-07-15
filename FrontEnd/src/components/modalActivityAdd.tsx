@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
     Dialog,
     DialogContent,
@@ -11,16 +11,26 @@ import {
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./ui/select"
-import { crearActividad } from "../services/api"
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem
+} from "./ui/select"
+import { crearActividad, editarActividad } from "../services/api"
 import { toast } from "sonner"
-
 
 interface ModalCrearActividadProps {
     onSuccess: () => void
+    initialData?: any
 }
 
-export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
+export function ModalCrearActividad({
+    onSuccess,
+    initialData
+}: ModalCrearActividadProps) {
+    const isEditando = Boolean(initialData)
     const [open, setOpen] = useState(false)
     const [formData, setFormData] = useState({
         nombre: "",
@@ -31,12 +41,31 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
         horaFin: "",
         cupo: "",
         ponente: "",
-        lugar: "",
+        lugar: ""
     })
+
+    useEffect(() => {
+        if (isEditando && initialData) {
+            setFormData({
+                nombre: initialData.nombre || "",
+                tipo: initialData.tipo || "",
+                descripcion: initialData.descripcion || "",
+                fecha: initialData.fecha?.split("T")[0] || "",
+                horaInicio: initialData.horaInicio?.split("T")[1]?.slice(0, 5) || "",
+                horaFin: initialData.horaFin?.split("T")[1]?.slice(0, 5) || "",
+                cupo: initialData.cupo?.toString() || "",
+                ponente: initialData.ponente || "",
+                lugar: initialData.lugar || ""
+            })
+            setOpen(true)
+        }
+    }, [initialData])
 
     const isValid = Object.values(formData).every((val) => val.trim() !== "")
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         const { name, value } = e.target
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
@@ -48,7 +77,7 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
     const handleSubmit = async () => {
         if (!isValid) return
 
-        const nuevaActividad = {
+        const actividad = {
             ...formData,
             cupo: parseInt(formData.cupo),
             horaInicio: `${formData.fecha}T${formData.horaInicio}`,
@@ -56,20 +85,21 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
         }
 
         try {
-            await crearActividad(nuevaActividad)
+            if (isEditando) {
+                await editarActividad(initialData.id, actividad)
+                toast("Actividad actualizada", {
+                    description: `La actividad "${formData.nombre}" fue modificada correctamente.`,
+                    duration: 5000
+                })
+            } else {
+                await crearActividad(actividad)
+                toast("Actividad creada", {
+                    description: `La actividad "${formData.nombre}" fue registrada exitosamente.`,
+                    duration: 5000
+                })
+            }
+
             onSuccess()
-
-            toast("Actividad creada", {
-                description: `La actividad "${formData.nombre}" fue registrada exitosamente.`,
-                duration: 5000,
-                action: {
-                    label: "undo",
-                    onClick: () => {
-                        console.log("undo")
-                    }
-                }
-            })
-
             setFormData({
                 nombre: "",
                 tipo: "",
@@ -83,10 +113,9 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
             })
             setOpen(false)
         } catch (error) {
-            console.error("Error al crear actividad:", error)
-
-            toast("Error al crear actividad", {
-                description: "Ocurrió un problema al registrar la actividad.",
+            console.error("Error al guardar actividad:", error)
+            toast("Error", {
+                description: "Ocurrió un problema al guardar la actividad.",
                 duration: 5000
             })
         }
@@ -94,18 +123,34 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button className="bg-uaa-blue text-white hover:bg-uaa-blue/90">Agregar Actividad</Button>
-            </DialogTrigger>
+            {!isEditando && (
+                <DialogTrigger asChild>
+                    <Button className="bg-uaa-blue text-white hover:bg-uaa-blue/90">
+                        Agregar Actividad
+                    </Button>
+                </DialogTrigger>
+            )}
+
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>Crear Nueva Actividad</DialogTitle>
-                    <p className="text-sm text-muted-foreground">Completa la información para crear una nueva actividad</p>
+                    <DialogTitle>
+                        {isEditando ? "Editar Actividad" : "Crear Nueva Actividad"}
+                    </DialogTitle>
+                    <p className="text-sm text-muted-foreground">
+                        {isEditando
+                            ? "Modifica los campos necesarios para actualizar la actividad"
+                            : "Completa la información para crear una nueva actividad"}
+                    </p>
                 </DialogHeader>
 
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
-                        <Input name="nombre" placeholder="Nombre de la actividad" value={formData.nombre} onChange={handleChange} />
+                        <Input
+                            name="nombre"
+                            placeholder="Nombre de la actividad"
+                            value={formData.nombre}
+                            onChange={handleChange}
+                        />
                         <Select onValueChange={handleSelect} defaultValue={formData.tipo}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Seleccionar tipo" />
@@ -117,20 +162,58 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
                         </Select>
                     </div>
 
-                    <Textarea name="descripcion" placeholder="Descripción de la actividad" value={formData.descripcion} onChange={handleChange} />
+                    <Textarea
+                        name="descripcion"
+                        placeholder="Descripción de la actividad"
+                        value={formData.descripcion}
+                        onChange={handleChange}
+                    />
 
                     <div className="grid grid-cols-2 gap-4">
-                        <Input type="date" name="fecha" value={formData.fecha} onChange={handleChange} />
-                        <Input name="cupo" type="number" placeholder="Cupo" value={formData.cupo} onChange={handleChange} />
+                        <Input
+                            type="date"
+                            name="fecha"
+                            value={formData.fecha}
+                            onChange={handleChange}
+                        />
+                        <Input
+                            name="cupo"
+                            type="number"
+                            placeholder="Cupo"
+                            value={formData.cupo}
+                            onChange={handleChange}
+                        />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <Input name="horaInicio" type="time" placeholder="Hora inicio (ej. 14:00)" value={formData.horaInicio} onChange={handleChange} />
-                        <Input name="horaFin" type="time" placeholder="Hora fin (ej. 16:30)" value={formData.horaFin} onChange={handleChange} />
+                        <Input
+                            name="horaInicio"
+                            type="time"
+                            placeholder="Hora inicio (ej. 14:00)"
+                            value={formData.horaInicio}
+                            onChange={handleChange}
+                        />
+                        <Input
+                            name="horaFin"
+                            type="time"
+                            placeholder="Hora fin (ej. 16:30)"
+                            value={formData.horaFin}
+                            onChange={handleChange}
+                        />
                     </div>
 
-                    <Input name="ponente" placeholder="Ponente" value={formData.ponente} onChange={handleChange} />
-                    <Input name="lugar" placeholder="Lugar" value={formData.lugar} onChange={handleChange} />
+                    <Input
+                        name="ponente"
+                        placeholder="Ponente"
+                        value={formData.ponente}
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="lugar"
+                        placeholder="Lugar"
+                        value={formData.lugar}
+                        onChange={handleChange}
+                    />
                 </div>
 
                 <DialogFooter className="gap-2 sm:justify-end">
@@ -142,7 +225,7 @@ export function ModalCrearActividad({ onSuccess }: ModalCrearActividadProps) {
                         className="bg-uaa-blue text-white hover:bg-uaa-blue/90"
                         disabled={!isValid}
                     >
-                        Crear Actividad
+                        {isEditando ? "Guardar Cambios" : "Crear Actividad"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

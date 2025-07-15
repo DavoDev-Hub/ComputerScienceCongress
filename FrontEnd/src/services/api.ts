@@ -22,3 +22,11 @@ export async function eliminarActividad(id: string) {
     if (!res.ok) throw new Error("Error al eliminar la actividad")
 }
 
+export async function editarActividad(id: string, data: Actividad) {
+    const res = await axios.put(`${API_BASE}/actividades/${id}`, data)
+    return res.data
+}
+
+
+
+
