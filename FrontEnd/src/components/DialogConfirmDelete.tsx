@@ -5,6 +5,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogFooter,
+    DialogClose
 } from "./ui/dialog"
 import { Button } from "./ui/button"
 
@@ -27,7 +28,9 @@ export function DialogConfirmDelete({ onConfirm, trigger }: DialogConfirmDeleteP
                     Esta acción no se puede deshacer. Se eliminará permanentemente la actividad y sus datos relacionados.
                 </p>
                 <DialogFooter className="gap-2 pt-4">
-                    <Button variant="outline">Cancelar</Button>
+                    <DialogClose>
+                        <Button variant="outline">Cancelar</Button>
+                    </DialogClose>
                     <Button className="bg-red-600 text-white hover:bg-red-700" onClick={onConfirm}>
                         Confirmar
                     </Button>
