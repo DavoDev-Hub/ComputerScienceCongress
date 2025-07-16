@@ -42,7 +42,7 @@ export const postActividad = async (req: Request, res: Response) => {
     }
 };
 
-// Put an activity
+
 export const putActividad = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const result = actividadSchema.safeParse(req.body);
