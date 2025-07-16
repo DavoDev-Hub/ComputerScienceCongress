@@ -67,4 +67,62 @@ export const getAllAsistencias = async (req: Request, res: Response) => {
 }
 
 
+export const getAsistenciasPorAlumno = async (req: Request, res: Response) => {
+    const idAlumno = parseInt(req.params.id)
 
+    if (isNaN(idAlumno)) {
+        return res.status(400).json({ error: "ID de alumno inválido" })
+    }
+
+    try {
+        const asistencias = await prisma.asistencia.findMany({
+            where: {
+                id_alumno: idAlumno,
+            },
+            include: {
+                actividad: {
+                    select: { id: true, nombre: true },
+                },
+                conferencia: {
+                    select: { id: true, nombre: true },
+                },
+            },
+        })
+
+        const asistenciasConTipo = asistencias.map((a) => ({
+            id: a.id,
+            fecha_asistencia: a.fecha_asistencia,
+            tipo: a.actividad ? "actividad" : "conferencia",
+            nombre: a.actividad?.nombre || a.conferencia?.nombre,
+        }))
+
+        return res.status(200).json(asistenciasConTipo)
+    } catch (error) {
+        console.error("Error al obtener asistencias del alumno:", error)
+        return res.status(500).json({ error: "Error al obtener asistencias del alumno" })
+    }
+}
+
+
+export const deleteAsistencia = async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id)) {
+        return res.status(400).json({ error: "ID inválido" })
+    }
+
+    try {
+        const asistencia = await prisma.asistencia.findUnique({ where: { id } })
+
+        if (!asistencia) {
+            return res.status(404).json({ error: "Asistencia no encontrada" })
+        }
+
+        await prisma.asistencia.delete({ where: { id } })
+
+        return res.status(200).json({ mensaje: "Asistencia eliminada correctamente" })
+    } catch (error) {
+        console.error("Error al eliminar asistencia:", error)
+        return res.status(500).json({ error: "Error al eliminar asistencia" })
+    }
+}
