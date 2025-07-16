@@ -1,3 +1,5 @@
+// src/validations/alumno.schema.ts
+
 import { z } from "zod"
 
 export const alumnoSchema = z.object({
@@ -9,8 +11,11 @@ export const alumnoSchema = z.object({
         .email("Debe ser un correo institucional válido")
         .regex(/@edu\.uaa\.mx$/, "El correo debe ser institucional"),
     matricula: z
-        .string()
-        .min(6, "La matrícula debe tener al menos 6 caracteres"),
+        .number({
+            invalid_type_error: "La matrícula debe ser un número",
+        })
+        .int("La matrícula debe ser un número entero")
+        .gte(100000, "La matrícula debe tener al menos 6 dígitos"),
     semestre: z
         .number({
             invalid_type_error: "El semestre debe ser un número",

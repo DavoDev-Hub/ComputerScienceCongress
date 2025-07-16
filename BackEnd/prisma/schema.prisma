@@ -51,11 +51,11 @@ model conferencia {
 }
 
 model alumno {
-  id       Int    @id
+  id       Int     @id @default(autoincrement())
   nombre   String
-  correo   String
-  matricula String
-  semestre String
+  correo   String @unique
+  matricula Int   @unique
+  semestre Int
 
   administrador administrador?
   asistencias   asistencia[]
