@@ -7,11 +7,11 @@ import {
     DialogFooter,
     DialogTrigger,
     DialogClose
-} from "./ui/dialog"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
-import { crearConferencia, editarConferencia } from "../services/apiConference"
+} from "../ui/dialog"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Textarea } from "../ui/textarea"
+import { crearConferencia, editarConferencia } from "../../services/apiConference"
 import { toast } from "sonner"
 
 
@@ -73,14 +73,14 @@ export function ModalCrearConferencia({
         try {
             if (isEditando) {
                 await editarConferencia(initialData.id, conferencia)
-                toast("Actividad actualizada", {
+                toast("Conferencia actualizada", {
                     description: `La actividad "${formData.nombre}" fue modificada correctamente.`,
                     duration: 5000
                 })
             } else {
                 await crearConferencia(conferencia)
-                toast("Actividad creada", {
-                    description: `La actividad "${formData.nombre}" fue registrada exitosamente.`,
+                toast("Conferencia creada", {
+                    description: `La conferencia "${formData.nombre}" fue registrada exitosamente.`,
                     duration: 5000
                 })
             }
@@ -97,9 +97,9 @@ export function ModalCrearConferencia({
             })
             setOpen(false)
         } catch (error) {
-            console.error("Error al guardar actividad:", error)
+            console.error("Error al guardar conferencia:", error)
             toast("Error", {
-                description: "Ocurrió un problema al guardar la actividad.",
+                description: "Ocurrió un problema al guardar la conferencia.",
                 duration: 5000
             })
         }
@@ -110,7 +110,7 @@ export function ModalCrearConferencia({
             {!isEditando && (
                 <DialogTrigger asChild>
                     <Button className="bg-uaa-blue text-white hover:bg-uaa-blue/90">
-                        Agregar Actividad
+                        Agregar Conferencia
                     </Button>
                 </DialogTrigger>
             )}
@@ -118,12 +118,12 @@ export function ModalCrearConferencia({
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>
-                        {isEditando ? "Editar Actividad" : "Crear Nueva Actividad"}
+                        {isEditando ? "Editar Conferencia" : "Crear Nueva Actividad"}
                     </DialogTitle>
                     <p className="text-sm text-muted-foreground">
                         {isEditando
-                            ? "Modifica los campos necesarios para actualizar la actividad"
-                            : "Completa la información para crear una nueva actividad"}
+                            ? "Modifica los campos necesarios para actualizar la conferencia"
+                            : "Completa la información para crear una nueva conferencia"}
                     </p>
                 </DialogHeader>
 
@@ -131,7 +131,7 @@ export function ModalCrearConferencia({
                     <div className="grid grid-cols-2 gap-4">
                         <Input
                             name="nombre"
-                            placeholder="Nombre de la actividad"
+                            placeholder="Nombre de la conferencia"
                             value={formData.nombre}
                             onChange={handleChange}
                         />
@@ -139,7 +139,7 @@ export function ModalCrearConferencia({
 
                     <Textarea
                         name="descripcion"
-                        placeholder="Descripción de la actividad"
+                        placeholder="Descripción de la conferencia"
                         value={formData.descripcion}
                         onChange={handleChange}
                     />
@@ -192,7 +192,7 @@ export function ModalCrearConferencia({
                         className="bg-uaa-blue text-white hover:bg-uaa-blue/90"
                         disabled={!isValid}
                     >
-                        {isEditando ? "Guardar Cambios" : "Crear Actividad"}
+                        {isEditando ? "Guardar Cambios" : "Crear Conferencia"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

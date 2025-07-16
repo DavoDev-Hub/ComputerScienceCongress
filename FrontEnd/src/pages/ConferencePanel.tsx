@@ -9,7 +9,7 @@ import { toast } from "sonner"
 
 function conferencePanel() {
     const [conferencias, setConferencias] = useState<Conferencia[]>([])
-    const [editingConferencias, setEditingActividad] = useState<Conferencia | null>(null)
+    const [editingConferencias, setEditingConferencias] = useState<Conferencia | null>(null)
 
     //
     const fetchConferencias = async () => {
@@ -26,22 +26,23 @@ function conferencePanel() {
     const handleDelete = async (id: string) => {
         try {
             await eliminarConferencia(id)
-            toast.success("Actividad eliminada exitosamente")
+            toast.success("Conferencia eliminada exitosamente")
             setConferencias((prev) => prev.filter((act) => act.id !== id))
         } catch (error) {
-            toast.error("Error al eliminar la actividad")
+            toast.error("Error al eliminar la conferencia")
         }
     }
 
 
     return (
         <div className="max-w-7xl mx-auto p-6 space-y-6">
-            <div>
-                <h2 className="text-3xl font-bold text-gray-900">Panel de Administración de Conferencias</h2>
-                <p className="text-gray-600">Gestiona todas las conferencias del congreso</p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 className="text-3xl font-bold text-gray-900">Panel de administración de conferencias</h2>
+                    <p className="text-gray-600">Gestiona todas las conferencias del congreso</p>
+                </div>
+                <ModalCrearConferencia onSuccess={fetchConferencias} />
             </div>
-            <ModalCrearConferencia onSuccess={fetchConferencias} />
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Card>
                     <CardContent className="p-6">
@@ -99,7 +100,7 @@ function conferencePanel() {
                         lugar={conferencia.lugar}
                         horaInicio={conferencia.horaInicio}
                         horaFin={conferencia.horaFin}
-                        onEdit={() => handleEdit(conferencia)}
+                        onEdit={() => setEditingConferencias(conferencia)}
                         onDelete={() => handleDelete(conferencia.id)}
                     />
                 ))}
@@ -109,14 +110,13 @@ function conferencePanel() {
                 <ModalCrearConferencia
                     onSuccess={() => {
                         fetchConferencias()
-                        setEditingActividad(null)
+                        setEditingConferencias(null)
                     }}
                     initialData={editingConferencias}
                     isEditing
                     actividadId={editingConferencias.id}
                 />
             )}
-
         </div >
     )
 }
