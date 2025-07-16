@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import { Button } from '../ui/button'
 import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -5,8 +6,8 @@ import { Settings, Users, QrCode, LogOut } from 'lucide-react'
 import logoUaa from './../../assets/logo_uaa.svg'
 import '../../App.css'
 
-
 function navAdmin() {
+    const navigate = useNavigate()
     return (
         <nav className="bg-white border-b border-gray-200 px-4 py-3">
             <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -17,6 +18,7 @@ function navAdmin() {
 
                 <div className="flex items-center space-x-4">
                     <Button
+                        onClick={() => navigate("/admin/actividades")}
                         variant="ghost"
                         size="sm"
                         className="hover:bg-uaa-blue hover:text-white"
@@ -25,6 +27,7 @@ function navAdmin() {
                         Panel Actividades
                     </Button>
                     <Button
+                        onClick={() => navigate("/admin/conferencias")}
                         variant="ghost"
                         size="sm"
                         className="hover:bg-uaa-blue hover:text-white"
@@ -32,7 +35,6 @@ function navAdmin() {
                         <Settings className="h-4 w-4 mr-2" />
                         Panel Conferencias
                     </Button>
-
 
                     <Button
                         variant="ghost"

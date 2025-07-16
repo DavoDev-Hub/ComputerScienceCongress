@@ -39,7 +39,7 @@ function activityPanel() {
         <div className="max-w-7xl mx-auto p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Panel de Administración de actividades</h2>
+                    <h2 className="text-3xl font-bold text-gray-900">Panel de administración de actividades</h2>
                     <p className="text-gray-600">Gestiona todas las actividades del congreso</p>
                 </div>
                 <ModalCrearActividad onSuccess={fetchActividades} />
@@ -114,7 +114,6 @@ function activityPanel() {
                                     tipo={actividad.tipo}
                                     onEdit={() => setEditingActividad(actividad)}
                                     onDelete={() => handleDelete(actividad.id)}
-                                    onView={() => console.log("Ver asistentes", actividad.id)}
                                 />
                             ))}
                         </div>

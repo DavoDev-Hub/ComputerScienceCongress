@@ -48,7 +48,7 @@ export const postConferencia = (async (req: Request, res: Response) => {
 
 export const putConferencia = (async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const result = actividadSchema.safeParse(req.body);
+    const result = conferenciaSchema.safeParse(req.body);
 
     if (!result.success) {
         return res.status(400).json({
@@ -58,12 +58,12 @@ export const putConferencia = (async (req: Request, res: Response) => {
     }
 
     try {
-        const actualizada = await prisma.conferencia.update({
+        const conferencia = await prisma.conferencia.update({
             where: { id },
             data: result.data
         });
 
-        res.json(actualizada);
+        res.json(conferencia);
     } catch (error) {
         res.status(404).json({ error: "La congreso no se encuenta, ingrese otro" })
     }
