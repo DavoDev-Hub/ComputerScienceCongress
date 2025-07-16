@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { conferenciaSchema } from "../schemas/conferencia.schema";
-import { actividadSchema } from "../schemas/actividad.schema";
 const prisma = new PrismaClient()
 
 // Get todas las conferencias 

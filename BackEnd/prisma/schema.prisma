@@ -54,9 +54,9 @@ model alumno {
   id       Int    @id
   nombre   String
   correo   String
+  matricula String
   semestre String
 
-  // Relaciones
   administrador administrador?
   asistencias   asistencia[]
   inscripciones inscripcion[]
