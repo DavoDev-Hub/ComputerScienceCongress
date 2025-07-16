@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import actividadRoutes from "./routes/actividad.routes";
 import conferenciaRoutes from "./routes/conferencia.routes";
+import alumnoRoutes from "./routes/alumno.routes"
 import asistenciasRoutes from "./routes/asistencia.routes";
 
 dotenv.config();
@@ -21,7 +22,7 @@ app.use(express.json());
 
 app.use("/api/actividades", actividadRoutes);
 app.use("/api/conferencias", conferenciaRoutes);
-app.use("/api/alumnos", asistenciasRoutes)
+app.use("/api/alumnos", alumnoRoutes);
 
 
 app.get("/", (req, res) => {
