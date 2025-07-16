@@ -23,7 +23,7 @@ app.use(express.json());
 app.use("/api/actividades", actividadRoutes);
 app.use("/api/conferencias", conferenciaRoutes);
 app.use("/api/alumnos", alumnoRoutes);
-
+app.use("api/asistencia", asistenciasRoutes)
 
 app.get("/", (req, res) => {
     res.send("Bienvenido a Computer Science Congress API 🚀");
