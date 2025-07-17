@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllAlumnosWithAsistencias } from "../services/apiAsistencia";
+import StudentDetailModal from "../components/modals/StudentDetailModal";
 import StudentTable from "../components/tables/StudentTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
@@ -116,6 +117,12 @@ function StudentPanel() {
                     />
                 </CardContent>
             </Card>
+            <StudentDetailModal
+                alumno={selectedAlumno}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
+
         </div>
     )
 }

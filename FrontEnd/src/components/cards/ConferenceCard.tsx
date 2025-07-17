@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Users, MapPin } from 'lucide-react'
 import { DialogConfirmDelete } from "../dialogs/DialogConfirmDelete"
-
 type ConferenceCardProps = {
     nombre: string
     fecha: string
