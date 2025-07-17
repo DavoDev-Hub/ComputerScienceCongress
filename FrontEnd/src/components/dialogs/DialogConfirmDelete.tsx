@@ -39,4 +39,3 @@ export function DialogConfirmDelete({ onConfirm, trigger }: DialogConfirmDeleteP
         </Dialog>
     )
 }
-
