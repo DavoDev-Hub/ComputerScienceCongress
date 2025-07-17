@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import ActivityPanel from './pages/ActivityPanel'
 import ConferencePanel from './pages/ConferencePanel'
 import NavbarAdmin from './components/nav/navAdmin'
+import StudentPanel from './pages/StudentPanel'
 import { Toaster } from 'sonner'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
             <Routes>
                 <Route path="/admin/actividades" element={<ActivityPanel />} />
                 <Route path="/admin/conferencias" element={<ConferencePanel />} />
+                <Route path="/admin/asistencias" element={<StudentPanel />} />
             </Routes>
         </>
     )
