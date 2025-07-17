@@ -29,40 +29,59 @@ export const getAllAsistencias = async (req: Request, res: Response) => {
     try {
         const asistencias = await prisma.asistencia.findMany({
             include: {
-                alumno: {
-                    select: {
-                        id: true,
-                        nombre: true,
-                        matricula: true,
-                    },
-                },
-                actividad: {
-                    select: {
-                        id: true,
-                        nombre: true,
-                    },
-                },
-                conferencia: {
-                    select: {
-                        id: true,
-                        nombre: true,
-                    },
-                },
+                alumno: true,
+                actividad: true,
+                conferencia: true,
             },
         })
 
-        const asistenciasConTipo = asistencias.map((a) => ({
-            id: a.id,
-            alumno: a.alumno,
-            fecha_asistencia: a.fecha_asistencia,
-            tipo: a.actividad ? "actividad" : "conferencia",
-            nombre: a.actividad?.nombre || a.conferencia?.nombre,
-        }))
+        const agrupadas: Record<number, any> = {}
 
-        return res.status(200).json(asistenciasConTipo)
+        asistencias.forEach((a) => {
+            const alumno = a.alumno
+            if (!agrupadas[alumno.id]) {
+                agrupadas[alumno.id] = {
+                    id: alumno.id,
+                    nombre: alumno.nombre,
+                    correo: alumno.correo,
+                    matricula: alumno.matricula,
+                    semestre: alumno.semestre,
+                    asistenciasConferencias: 0,
+                    asistenciasActividades: 0,
+                    totalAsistencias: 0,
+                    detalle: {
+                        conferencias: [],
+                        actividades: [],
+                    },
+                }
+            }
+
+            const tipo = a.actividad ? "actividad" : "conferencia"
+            const detalle = {
+                id: a.actividad?.id || a.conferencia?.id || 0,
+                titulo: a.actividad?.nombre || a.conferencia?.nombre || "",
+                tipo,
+                lugar: a.actividad?.lugar || a.conferencia?.lugar || "",
+                fecha: a.fecha_asistencia.toISOString().split("T")[0],
+                hora: "00:00", // si en el futuro registras la hora real, cámbiala aquí
+                ponente: a.conferencia?.ponente || undefined,
+            }
+
+            if (tipo === "conferencia") {
+                agrupadas[alumno.id].asistenciasConferencias++
+                agrupadas[alumno.id].detalle.conferencias.push(detalle)
+            } else {
+                agrupadas[alumno.id].asistenciasActividades++
+                agrupadas[alumno.id].detalle.actividades.push(detalle)
+            }
+
+            agrupadas[alumno.id].totalAsistencias++
+        })
+
+        return res.status(200).json(Object.values(agrupadas))
     } catch (error) {
-        console.error("Error al obtener asistencias:", error)
-        return res.status(500).json({ error: "Error al obtener asistencias" })
+        console.error("Error al agrupar asistencias por alumno:", error)
+        return res.status(500).json({ error: "Error al agrupar asistencias por alumno" })
     }
 }
 
