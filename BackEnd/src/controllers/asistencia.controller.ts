@@ -27,63 +27,64 @@ export const registrarAsistencia = async (req: Request, res: Response) => {
 
 export const getAllAsistencias = async (req: Request, res: Response) => {
     try {
-        const asistencias = await prisma.asistencia.findMany({
+        const alumnos = await prisma.alumno.findMany({
+            orderBy: { semestre: "asc" },
             include: {
-                alumno: true,
-                actividad: true,
-                conferencia: true,
-            },
-        })
-
-        const agrupadas: Record<number, any> = {}
-
-        asistencias.forEach((a) => {
-            const alumno = a.alumno
-            if (!agrupadas[alumno.id]) {
-                agrupadas[alumno.id] = {
-                    id: alumno.id,
-                    nombre: alumno.nombre,
-                    correo: alumno.correo,
-                    matricula: alumno.matricula,
-                    semestre: alumno.semestre,
-                    asistenciasConferencias: 0,
-                    asistenciasActividades: 0,
-                    totalAsistencias: 0,
-                    detalle: {
-                        conferencias: [],
-                        actividades: [],
+                asistencias: {
+                    include: {
+                        conferencia: true,
+                        actividad: true,
                     },
-                }
-            }
+                },
+            },
+        });
 
-            const tipo = a.actividad ? "actividad" : "conferencia"
-            const detalle = {
-                id: a.actividad?.id || a.conferencia?.id || 0,
-                titulo: a.actividad?.nombre || a.conferencia?.nombre || "",
-                tipo,
-                lugar: a.actividad?.lugar || a.conferencia?.lugar || "",
-                fecha: a.fecha_asistencia.toISOString().split("T")[0],
-                hora: "00:00", // si en el futuro registras la hora real, cámbiala aquí
-                ponente: a.conferencia?.ponente || undefined,
-            }
+        const resultado = alumnos.map((alumno) => {
+            const detalleConferencias = alumno.asistencias
+                .filter((a) => a.conferencia)
+                .map((a) => ({
+                    id: a.id,
+                    titulo: a.conferencia!.nombre,
+                    tipo: "conferencia",
+                    lugar: a.conferencia!.lugar,
+                    fecha: a.fecha_asistencia.toISOString().split("T")[0],
+                    hora: "00:00",
+                    ponente: a.conferencia!.ponente,
+                }));
 
-            if (tipo === "conferencia") {
-                agrupadas[alumno.id].asistenciasConferencias++
-                agrupadas[alumno.id].detalle.conferencias.push(detalle)
-            } else {
-                agrupadas[alumno.id].asistenciasActividades++
-                agrupadas[alumno.id].detalle.actividades.push(detalle)
-            }
+            const detalleActividades = alumno.asistencias
+                .filter((a) => a.actividad)
+                .map((a) => ({
+                    id: a.id,
+                    titulo: a.actividad!.nombre,
+                    tipo: "actividad",
+                    lugar: a.actividad!.lugar,
+                    fecha: a.fecha_asistencia.toISOString().split("T")[0],
+                    hora: "00:00",
+                }));
 
-            agrupadas[alumno.id].totalAsistencias++
-        })
+            return {
+                id: alumno.id,
+                nombre: alumno.nombre,
+                correo: alumno.correo,
+                matricula: alumno.matricula,
+                semestre: alumno.semestre,
+                asistenciasConferencias: detalleConferencias.length,
+                asistenciasActividades: detalleActividades.length,
+                totalAsistencias: detalleConferencias.length + detalleActividades.length,
+                detalle: {
+                    conferencias: detalleConferencias,
+                    actividades: detalleActividades,
+                },
+            };
+        });
 
-        return res.status(200).json(Object.values(agrupadas))
+        return res.status(200).json(resultado);
     } catch (error) {
-        console.error("Error al agrupar asistencias por alumno:", error)
-        return res.status(500).json({ error: "Error al agrupar asistencias por alumno" })
+        console.error("Error al obtener todas las asistencias:", error);
+        return res.status(500).json({ error: "Error interno del servidor" });
     }
-}
+};
 
 
 export const getAsistenciasPorAlumno = async (req: Request, res: Response) => {
@@ -122,6 +123,41 @@ export const getAsistenciasPorAlumno = async (req: Request, res: Response) => {
     }
 }
 
+export const getRecentAttendances = async (req: Request, res: Response) => {
+    try {
+        const asistencias = await prisma.asistencia.findMany({
+            orderBy: {
+                fecha_asistencia: "desc",
+            },
+            take: 10, // o los que necesites
+            include: {
+                alumno: true,
+                actividad: true,
+                conferencia: true,
+            },
+        });
+
+        const datos = asistencias.map((a) => ({
+            id: a.id,
+            student: {
+                name: a.alumno.nombre,
+                matricula: a.alumno.matricula,
+                email: a.alumno.correo,
+            },
+            activity: {
+                title: a.actividad?.nombre || a.conferencia?.nombre || "Sin nombre",
+                type: a.actividad ? "recreational" : "academic",
+            },
+            timestamp: a.fecha_asistencia.toISOString(),
+            status: "success",
+        }));
+
+        return res.status(200).json(datos);
+    } catch (error) {
+        console.error("Error al obtener asistencias recientes:", error);
+        return res.status(500).json({ error: "Error al obtener asistencias recientes" });
+    }
+};
 
 export const deleteAsistencia = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)

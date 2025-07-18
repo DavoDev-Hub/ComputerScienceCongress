@@ -18,6 +18,12 @@ export const createAsistencia = async (data: Asistencia) => {
     return response.data
 }
 
+export const getRecentAttendances = async () => {
+    const response = await axios.get("/asistencias/recientes")
+    return response.data
+}
+
+
 export const deleteAsistencia = async (id: number) => {
     const response = await axios.delete(`${API_URL}/asistencias/${id}`)
     return response.data

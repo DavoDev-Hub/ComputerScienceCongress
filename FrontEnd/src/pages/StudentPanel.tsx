@@ -121,6 +121,7 @@ function StudentPanel() {
                 alumno={selectedAlumno}
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
+                onUpdated={() => getAllAlumnosWithAsistencias().then(setAlumnos)}
             />
 
         </div>
