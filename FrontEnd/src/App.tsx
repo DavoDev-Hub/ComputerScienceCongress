@@ -3,6 +3,7 @@ import ActivityPanel from './pages/ActivityPanel'
 import ConferencePanel from './pages/ConferencePanel'
 import NavbarAdmin from './components/nav/navAdmin'
 import StudentPanel from './pages/StudentPanel'
+import AttendancePanel from './pages/AttendancePanel'
 import { Toaster } from 'sonner'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
                 <Route path="/admin/actividades" element={<ActivityPanel />} />
                 <Route path="/admin/conferencias" element={<ConferencePanel />} />
                 <Route path="/admin/asistencias" element={<StudentPanel />} />
+                <Route path="/admin/AttendancePanel" element={<AttendancePanel />} />
             </Routes>
         </>
     )
