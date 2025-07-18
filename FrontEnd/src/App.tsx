@@ -15,7 +15,7 @@ function App() {
                 <Route path="/admin/actividades" element={<ActivityPanel />} />
                 <Route path="/admin/conferencias" element={<ConferencePanel />} />
                 <Route path="/admin/asistencias" element={<StudentPanel />} />
-                <Route path="/admin/AttendancePanel" element={<AttendancePanel />} />
+                <Route path="/admin/registro" element={<AttendancePanel />} />
             </Routes>
         </>
     )

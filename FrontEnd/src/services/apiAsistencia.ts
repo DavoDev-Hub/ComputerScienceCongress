@@ -19,7 +19,7 @@ export const createAsistencia = async (data: Asistencia) => {
 }
 
 export const getRecentAttendances = async () => {
-    const response = await axios.get("/asistencias/recientes")
+    const response = await axios.get(`${API_URL}/asistencias/recientes`)
     return response.data
 }
 
