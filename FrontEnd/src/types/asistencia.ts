@@ -21,3 +21,4 @@ export interface Attendance {
     timestamp: string;
     status: "success" | "pending";
 }
+

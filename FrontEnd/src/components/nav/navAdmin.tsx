@@ -47,6 +47,7 @@ function navAdmin() {
                     </Button>
 
                     <Button
+                        onClick={() => navigate("/admin/registro")}
                         variant="ghost"
                         size="sm"
                         className="hover:bg-uaa-blue hover:text-white"

@@ -74,6 +74,9 @@ function AttendancePanel() {
         return new Date(a.timestamp).toDateString() === today;
     });
 
+    // Ventana modal
+
+
     return (
         <div className="max-w-7xl mx-auto p-6 space-y-6">
             <div className="flex items-center justify-between">
@@ -82,10 +85,6 @@ function AttendancePanel() {
                     <p className="text-gray-600">Escanea códigos QR y gestiona asistencias en tiempo real</p>
                 </div>
                 <div className="flex items-center space-x-3">
-                    <Button variant="outline" className="bg-blue-600 hover:bg-blue-700 text-white">
-                        <Users className="h-4 w-4 mr-2" />
-                        Registrar Manualmente
-                    </Button>
                     <Button
                         className={`${scannerActive ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}`}
                         onClick={() => setScannerActive(!scannerActive)}
