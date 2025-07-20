@@ -21,7 +21,9 @@ const CustomQrScanner: React.FC<CustomQrScannerProps> = ({ onSuccess, onError })
                 try {
                     const asistencia = JSON.parse(atob(result.data)) as Asistencia
                     await createAsistencia(asistencia)
-                    scanner.stop()
+                    if (scanner) {
+                        scanner.stop().catch((e) => console.warn("Error al detener escáner:", e))
+                    }
                     onSuccess?.()
                 } catch (err) {
                     console.error("Error al registrar asistencia:", err)
@@ -35,13 +37,16 @@ const CustomQrScanner: React.FC<CustomQrScannerProps> = ({ onSuccess, onError })
         )
 
         scannerRef.current = scanner
+
         scanner.start().catch((err) => {
             console.error("No se pudo iniciar el escáner:", err)
             onError?.("No se pudo acceder a la cámara")
         })
 
         return () => {
-            scanner.stop().catch((e) => console.warn("Error al detener escáner:", e))
+            if (scannerRef.current) {
+                scannerRef.current.stop().catch((e) => console.warn("Error al detener escáner:", e))
+            }
         }
     }, [])
 
