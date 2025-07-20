@@ -5,14 +5,13 @@ import {
     CardHeader,
     CardTitle,
     CardDescription
-} from "../components/ui/card";
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Clock, QrCode, Users } from "lucide-react";
-import type { AttendanceRecord } from "../types/asistencia";
-import { getRecentAttendance, createAsistencia } from "../services/apiAsistencia";
-import QrScanner from "../components/QrScanner";
+import type { AttendanceRecord } from "@/types/asistencia";
+import { getRecentAttendance } from "@/services/apiAsistencia";
 
 const RegistroAsistencias = () => {
     const [scannerActive, setScannerActive] = useState(false)
@@ -132,30 +131,6 @@ const RegistroAsistencias = () => {
                     </CardContent>
                 </Card>
             </div>
-
-            {scannerActive && (
-                <div className="mt-4 border rounded-lg p-6 bg-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-700 mb-2">Escáner QR Activo</h3>
-                    <QrScanner
-                        onScanSuccess={async (decodedText) => {
-                            try {
-                                const parsed = JSON.parse(decodedText);
-                                await createAsistencia(parsed);
-                                alert("Asistencia registrada correctamente ✅");
-                                setScannerActive(false);
-                                fetchData();
-                            } catch (error) {
-                                console.error("Error registrando asistencia:", error);
-                                alert("❌ QR inválido o error al registrar.");
-                            }
-                        }}
-                        onScanError={(error) => {
-                            console.warn("Error escaneando QR:", error);
-                        }}
-                    />
-                </div>
-            )}
-
             <Card>
                 <CardHeader>
                     <CardTitle>Asistencias Recientes</CardTitle>

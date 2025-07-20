@@ -24,7 +24,8 @@ export const registrarAsistencia = async (req: Request, res: Response) => {
         return res.status(500).json({ error: "Error interno del servidor" })
     }
 }
-const asistencia = JSON.parse(atob(result.data)) as Asistencia => {
+
+export const getAllAsistencias = async (req: Request, res: Response) => {
     try {
         const alumnos = await prisma.alumno.findMany({
             orderBy: { semestre: "asc" },

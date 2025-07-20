@@ -4,14 +4,14 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription,
-} from "../ui/dialog";
-import { ScrollArea } from "../ui/scroll-area";
-import { Button } from "../ui/button";
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import { BookOpen, Gamepad2, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { deleteAsistencia } from "../../services/apiAsistencia";
+import { deleteAsistencia } from "@/services/apiAsistencia";
 
-import type { AlumnoConAsistencias } from "../../types/alumno";
+import type { AlumnoConAsistencias } from "@/types/alumno";
 
 interface Props {
     alumno: AlumnoConAsistencias | null;
@@ -31,7 +31,7 @@ export const StudentDetailModal = ({ alumno, isOpen, onClose, onUpdated }: Props
         setLoadingIds((prev) => [...prev, id]);
         try {
             await deleteAsistencia(id);
-            onUpdated?.(); // refresca desde el parent
+            onUpdated?.();
         } catch (error) {
             alert("Error al eliminar la asistencia.");
             console.error(error);
@@ -64,7 +64,6 @@ export const StudentDetailModal = ({ alumno, isOpen, onClose, onUpdated }: Props
 
                 <ScrollArea className="max-h-96 pr-4 mt-4">
                     <div className="space-y-6">
-                        {/* Conferencias */}
                         <div>
                             <h3 className="flex items-center gap-2 text-lg font-semibold text-blue-700">
                                 <BookOpen size={20} />
@@ -92,7 +91,6 @@ export const StudentDetailModal = ({ alumno, isOpen, onClose, onUpdated }: Props
                             </ul>
                         </div>
 
-                        {/* Actividades */}
                         <div>
                             <h3 className="flex items-center gap-2 text-lg font-semibold text-pink-700">
                                 <Gamepad2 size={20} />

@@ -6,8 +6,8 @@ import {
     DialogTitle,
     DialogFooter,
     DialogClose
-} from "../ui/dialog"
-import { Button } from "../ui/button"
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 import React from "react"
 
