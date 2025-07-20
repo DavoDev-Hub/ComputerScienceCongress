@@ -7,33 +7,39 @@ import {
     DialogFooter,
     DialogTrigger,
     DialogClose
-} from "../ui/dialog"
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-import { Textarea } from "../ui/textarea"
-import { crearConferencia, editarConferencia } from "../../services/apiConference"
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem
+} from "@/components/ui/select"
+import { crearActividad, editarActividad } from "@/services/apiActivity"
 import { toast } from "sonner"
 
-
-interface ModalCrearConferenciaProps {
+interface ModalCrearActividadProps {
     onSuccess: () => void
     initialData?: any
 }
 
-
-export function ModalCrearConferencia({
+export function ModalCrearActividad({
     onSuccess,
     initialData
-}: ModalCrearConferenciaProps) {
+}: ModalCrearActividadProps) {
     const isEditando = Boolean(initialData)
     const [open, setOpen] = useState(false)
     const [formData, setFormData] = useState({
         nombre: "",
-        ponente: "",
+        tipo: "",
         descripcion: "",
         fecha: "",
         horaInicio: "",
         horaFin: "",
+        cupo: "",
         lugar: ""
     })
 
@@ -41,11 +47,12 @@ export function ModalCrearConferencia({
         if (isEditando && initialData) {
             setFormData({
                 nombre: initialData.nombre || "",
-                ponente: initialData.ponente || "",
+                tipo: initialData.tipo || "",
                 descripcion: initialData.descripcion || "",
                 fecha: initialData.fecha?.split("T")[0] || "",
                 horaInicio: initialData.horaInicio?.split("T")[1]?.slice(0, 5) || "",
                 horaFin: initialData.horaFin?.split("T")[1]?.slice(0, 5) || "",
+                cupo: initialData.cupo?.toString() || "",
                 lugar: initialData.lugar || ""
             })
             setOpen(true)
@@ -61,26 +68,31 @@ export function ModalCrearConferencia({
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
+    const handleSelect = (value: string) => {
+        setFormData((prev) => ({ ...prev, tipo: value }))
+    }
+
     const handleSubmit = async () => {
         if (!isValid) return
 
-        const conferencia = {
+        const actividad = {
             ...formData,
+            cupo: parseInt(formData.cupo),
             horaInicio: `${formData.fecha}T${formData.horaInicio}`,
             horaFin: `${formData.fecha}T${formData.horaFin}`
         }
 
         try {
             if (isEditando) {
-                await editarConferencia(initialData.id, conferencia)
-                toast("Conferencia actualizada", {
+                await editarActividad(initialData.id, actividad)
+                toast("Actividad actualizada", {
                     description: `La actividad "${formData.nombre}" fue modificada correctamente.`,
                     duration: 5000
                 })
             } else {
-                await crearConferencia(conferencia)
-                toast("Conferencia creada", {
-                    description: `La conferencia "${formData.nombre}" fue registrada exitosamente.`,
+                await crearActividad(actividad)
+                toast("Actividad creada", {
+                    description: `La actividad "${formData.nombre}" fue registrada exitosamente.`,
                     duration: 5000
                 })
             }
@@ -88,18 +100,19 @@ export function ModalCrearConferencia({
             onSuccess()
             setFormData({
                 nombre: "",
-                ponente: "",
+                tipo: "",
                 descripcion: "",
                 fecha: "",
                 horaInicio: "",
                 horaFin: "",
+                cupo: "",
                 lugar: ""
             })
             setOpen(false)
         } catch (error) {
-            console.error("Error al guardar conferencia:", error)
+            console.error("Error al guardar actividad:", error)
             toast("Error", {
-                description: "Ocurrió un problema al guardar la conferencia.",
+                description: "Ocurrió un problema al guardar la actividad.",
                 duration: 5000
             })
         }
@@ -110,7 +123,7 @@ export function ModalCrearConferencia({
             {!isEditando && (
                 <DialogTrigger asChild>
                     <Button className="bg-uaa-blue text-white hover:bg-uaa-blue/90">
-                        Agregar Conferencia
+                        Agregar Actividad
                     </Button>
                 </DialogTrigger>
             )}
@@ -118,12 +131,12 @@ export function ModalCrearConferencia({
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>
-                        {isEditando ? "Editar Conferencia" : "Crear Nueva Actividad"}
+                        {isEditando ? "Editar Actividad" : "Crear Nueva Actividad"}
                     </DialogTitle>
                     <p className="text-sm text-muted-foreground">
                         {isEditando
-                            ? "Modifica los campos necesarios para actualizar la conferencia"
-                            : "Completa la información para crear una nueva conferencia"}
+                            ? "Modifica los campos necesarios para actualizar la actividad"
+                            : "Completa la información para crear una nueva actividad"}
                     </p>
                 </DialogHeader>
 
@@ -131,15 +144,24 @@ export function ModalCrearConferencia({
                     <div className="grid grid-cols-2 gap-4">
                         <Input
                             name="nombre"
-                            placeholder="Nombre de la conferencia"
+                            placeholder="Nombre de la actividad"
                             value={formData.nombre}
                             onChange={handleChange}
                         />
+                        <Select onValueChange={handleSelect} defaultValue={formData.tipo}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Seleccionar tipo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="academico">Académico</SelectItem>
+                                <SelectItem value="recreativo">Recreativo</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     <Textarea
                         name="descripcion"
-                        placeholder="Descripción de la conferencia"
+                        placeholder="Descripción de la actividad"
                         value={formData.descripcion}
                         onChange={handleChange}
                     />
@@ -149,6 +171,13 @@ export function ModalCrearConferencia({
                             type="date"
                             name="fecha"
                             value={formData.fecha}
+                            onChange={handleChange}
+                        />
+                        <Input
+                            name="cupo"
+                            type="number"
+                            placeholder="Cupo"
+                            value={formData.cupo}
                             onChange={handleChange}
                         />
                     </div>
@@ -170,12 +199,6 @@ export function ModalCrearConferencia({
                         />
                     </div>
                     <Input
-                        name="ponente"
-                        placeholder="Ponente"
-                        value={formData.ponente}
-                        onChange={handleChange}
-                    />
-                    <Input
                         name="lugar"
                         placeholder="Lugar"
                         value={formData.lugar}
@@ -192,7 +215,7 @@ export function ModalCrearConferencia({
                         className="bg-uaa-blue text-white hover:bg-uaa-blue/90"
                         disabled={!isValid}
                     >
-                        {isEditando ? "Guardar Cambios" : "Crear Conferencia"}
+                        {isEditando ? "Guardar Cambios" : "Crear Actividad"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

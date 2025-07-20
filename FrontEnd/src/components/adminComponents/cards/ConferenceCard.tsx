@@ -1,34 +1,30 @@
 import React from 'react'
-import { Button } from '../ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Badge } from '../ui/badge'
-import { Progress } from '../ui/progress'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { Users, MapPin } from 'lucide-react'
-import { DialogConfirmDelete } from '../dialogs/DialogConfirmDelete'
+import { DialogConfirmDelete } from "../dialogs/DialogConfirmDelete"
 
-type ActivityCardProps = {
+type ConferenceCardProps = {
     nombre: string
     fecha: string
     descripcion: string
     lugar: string
     horaInicio: string
     horaFin: string
-    cupo: number
-    tipo: 'academico' | 'recreativo'
+    ponente: string
     onEdit: () => void
     onDelete: () => void
-    onView: () => void
 }
 
-export const ActivityCard: React.FC<ActivityCardProps> = ({
+export const ConferenceCard: React.FC<ConferenceCardProps> = ({
     nombre,
     fecha,
     descripcion,
     lugar,
     horaInicio,
     horaFin,
-    cupo,
-    tipo,
+    ponente,
     onEdit,
     onDelete,
 }) => {
@@ -48,11 +44,12 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
         minute: '2-digit',
     })
 
+
     return (
         <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
                 <div className="flex items-start justify-between">
-                    <Badge className="bg-uaa-blue">{tipo}</Badge>
+                    <Badge className="bg-uaa-blue">conferencia</Badge>
                     <div className="text-right text-sm text-gray-500">
                         <p>{formattedDate}</p>
                         <p>
@@ -63,17 +60,16 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 <CardTitle className="text-lg">{nombre}</CardTitle>
             </CardHeader>
             <CardContent>
+                <div className="flex items-center text-sm text-gray-500">
+                    <Users className="h-4 w-4 mr-2" />
+                    Por: {ponente}
+                </div>
                 <p className="text-sm text-gray-600 mb-4">{descripcion}</p>
                 <div className="space-y-2">
                     <div className="flex items-center text-sm text-gray-500">
                         <MapPin className="h-4 w-4 mr-2" />
                         {lugar}
                     </div>
-                    <div className="flex items-center text-sm text-gray-500">
-                        <Users className="h-4 w-4 mr-2" />
-                        0/{cupo} inscritos
-                    </div>
-                    <Progress value={50} className="h-2" />
                 </div>
                 <div className="flex justify-between gap-2 mt-4">
                     <Button variant="outline" onClick={onEdit}>
@@ -92,4 +88,6 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
         </Card>
     )
 }
+
+
 

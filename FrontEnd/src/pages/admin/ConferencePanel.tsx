@@ -1,28 +1,25 @@
 import { useState, useEffect } from "react"
-import type { Conferencia } from "../types/conference"
-import { getConferencias, eliminarConferencia } from "../services/apiConference"
-import { ConferenceCard } from "../components/cards/ConferenceCard"
-import { Card, CardContent } from "../components/ui/card"
+import type { Conferencia } from "@/types/conference"
+import { getConferencias, eliminarConferencia } from "@/services/apiConference"
+import { ConferenceCard } from "@/components/adminComponents/cards/ConferenceCard"
+import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
-import { ModalCrearConferencia } from "../components/modals/modalConferenceAdd"
+import { ModalCrearConferencia } from "@/components/adminComponents/modals/modalConferenceAdd"
 import { toast } from "sonner"
 
 function conferencePanel() {
     const [conferencias, setConferencias] = useState<Conferencia[]>([])
     const [editingConferencias, setEditingConferencias] = useState<Conferencia | null>(null)
 
-    //
     const fetchConferencias = async () => {
         const data = await getConferencias()
         setConferencias(data)
     }
 
-    // 
     useEffect(() => {
         fetchConferencias()
     }, [])
 
-    //
     const handleDelete = async (id: string) => {
         try {
             await eliminarConferencia(id)

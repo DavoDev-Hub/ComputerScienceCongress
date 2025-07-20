@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import ActivityPanel from './pages/ActivityPanel'
-import ConferencePanel from './pages/ConferencePanel'
+import ActivityPanel from '@/pages/admin/ActivityPanel'
+import ConferencePanel from '@/pages/admin/ConferencePanel'
 import NavbarAdmin from './components/nav/navAdmin'
-import StudentPanel from './pages/StudentPanel'
-import AttendancePanel from './pages/AttendancePanel'
+import StudentPanel from '@/pages/admin/StudentPanel'
+import AttendancePanel from '@/pages/admin/AttendancePanel'
 import { Toaster } from 'sonner'
 
 function App() {

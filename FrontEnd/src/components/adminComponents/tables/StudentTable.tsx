@@ -1,6 +1,6 @@
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
-import type { AlumnoConAsistencias } from "../../types/alumno"
+import type { AlumnoConAsistencias } from "@/types/alumno"
 
 interface StudentTableProps {
     alumnos: AlumnoConAsistencias[]
