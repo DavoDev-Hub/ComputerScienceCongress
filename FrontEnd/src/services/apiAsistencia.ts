@@ -1,4 +1,3 @@
-// src/services/asistencias.ts
 import axios from "axios"
 import type { Asistencia } from "../types/asistencia"
 const API_URL = "http://localhost:3000/api"
@@ -18,7 +17,7 @@ export const createAsistencia = async (data: Asistencia) => {
     return response.data
 }
 
-export const getRecentAttendances = async () => {
+export const getRecentAttendance = async () => {
     const response = await axios.get(`${API_URL}/asistencias/recientes`)
     return response.data
 }

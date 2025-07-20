@@ -6,19 +6,17 @@ export interface Asistencia {
     fecha_asistencia: string
 }
 
-export interface Attendance {
-    id: number;
-    student: {
-        name: string;
-        matricula: string;
-        email: string;
-    };
-    activity: {
-        title: string;
-        type: "academic" | "recreational";
-        time: string;
-    };
-    timestamp: string;
-    status: "success" | "pending";
+export interface AttendanceRecord {
+  id: number
+  student: {
+    name: string
+    matricula: string
+    email: string
+  }
+  activity: {
+    title: string
+    type: "academic" | "recreational"
+  }
+  timestamp: string
+  status: string
 }
-
