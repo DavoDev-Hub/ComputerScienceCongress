@@ -11,7 +11,7 @@ const router = Router()
 router.post("/", registrarAsistencia)
 router.get("/", getAllAsistencias)
 // router.get("/alumno/:id", getAsistenciasPorAlumno)
-router.get("/asistencias/recientes", getRecentAttendances)
+router.get("/recientes", getRecentAttendances)
 router.delete("/:id", deleteAsistencia)
 export default router
 
