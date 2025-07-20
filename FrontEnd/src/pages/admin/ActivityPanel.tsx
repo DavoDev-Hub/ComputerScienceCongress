@@ -8,7 +8,7 @@ import { BookOpen, Users, Trophy, QrCode } from "lucide-react"
 import { ModalCrearActividad } from "@/components/adminComponents/modals/modalActivityAdd"
 import { toast } from "sonner"
 
-function activityPanel() {
+function ActivityPanel() {
     const [actividades, setActividades] = useState<Actividad[]>([])
     const [editingActividad, setEditingActividad] = useState<Actividad | null>(null)
 
@@ -36,10 +36,10 @@ function activityPanel() {
     }
 
     return (
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+        <div className="min-h-screen overflow-x-hidden lg:pl-72 p-4 sm:p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Panel de administración de actividades</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Panel de administración de actividades</h2>
                     <p className="text-gray-600">Gestiona todas las actividades del congreso</p>
                 </div>
                 <ModalCrearActividad onSuccess={fetchActividades} />
@@ -136,4 +136,5 @@ function activityPanel() {
     )
 }
 
-export default activityPanel
+export default ActivityPanel
+
