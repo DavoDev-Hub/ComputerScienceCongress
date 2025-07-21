@@ -7,6 +7,7 @@ import actividadRoutes from "./routes/actividad.routes";
 import conferenciaRoutes from "./routes/conferencia.routes";
 import alumnoRoutes from "./routes/alumno.routes"
 import asistenciasRoutes from "./routes/asistencia.routes";
+import dashboardRoutes from "./routes/dashboard.routes"
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ app.use(cors({
 app.use(express.json());
 
 // Admin routes
-// dashboard //
+app.use("/admin/dashboard", dashboardRoutes);
 app.use("/admin/actividades", actividadRoutes);
 app.use("/admin/conferencias", conferenciaRoutes);
 app.use("/admin/alumnos", alumnoRoutes);
