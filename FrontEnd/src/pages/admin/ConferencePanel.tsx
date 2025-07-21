@@ -6,8 +6,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
 import { ModalCrearConferencia } from "@/components/adminComponents/modals/modalConferenceAdd"
 import { toast } from "sonner"
+import { useSidebar } from "@/context/SidebarContext"
 
-function conferencePanel() {
+function ConferencePanel() {
+    const { collapsed } = useSidebar()
     const [conferencias, setConferencias] = useState<Conferencia[]>([])
     const [editingConferencias, setEditingConferencias] = useState<Conferencia | null>(null)
 
@@ -32,7 +34,10 @@ function conferencePanel() {
 
 
     return (
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+        <div
+            className={`min-h-screen overflow-x-hidden transition-all duration-300 p-4 sm:p-6 space-y-6 ${collapsed ? "lg:pl-30" : "lg:pl-80"
+                }`}
+        >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h2 className="text-3xl font-bold text-gray-900">Panel de administración de conferencias</h2>
@@ -119,5 +124,5 @@ function conferencePanel() {
 }
 
 
-export default conferencePanel
+export default ConferencePanel
 

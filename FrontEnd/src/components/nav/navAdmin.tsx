@@ -1,78 +1,54 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
 import {
     Users, QrCode, LogOut, Calendar, BookOpen, BarChart3,
     ChevronLeft, ChevronRight, Menu
-} from "lucide-react";
+} from "lucide-react"
 
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import {
-    Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
-} from "@/components/ui/tooltip";
-import logoUaa from "@/assets/logo_uaa.svg";
-import "@/App.css";
+    Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
+} from "@/components/ui/tooltip"
+import logoUaa from "@/assets/logo_uaa.svg"
+import "@/App.css"
+import { useSidebar } from "@/context/SidebarContext"
 
 function NavAdmin() {
-    const [collapsed, setCollapsed] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const { collapsed, toggleSidebar } = useSidebar()
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+    const [mobileOpen, setMobileOpen] = useState(false)
 
-    const navigate = useNavigate();
-    const location = useLocation();
+    const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
         const handleResize = () => {
-            const mobile = window.innerWidth < 768;
-            setIsMobile(mobile);
-            if (!mobile) setMobileOpen(false);
-        };
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+            const mobile = window.innerWidth < 768
+            setIsMobile(mobile)
+            if (!mobile) setMobileOpen(false)
+        }
+        window.addEventListener("resize", handleResize)
+        return () => window.removeEventListener("resize", handleResize)
+    }, [])
 
     const navItems = [
-        {
-            label: "Dashboard",
-            icon: <BarChart3 className="h-5 w-5" />,
-            to: "/admin/dashboard",
-            badge: null,
-        },
-        {
-            label: "Actividades",
-            icon: <Calendar className="h-5 w-5" />,
-            to: "/admin/actividades",
-            badge: "6",
-        },
-        {
-            label: "Conferencias",
-            icon: <BookOpen className="h-5 w-5" />,
-            to: "/admin/conferencias",
-            badge: null,
-        },
-        {
-            label: "Estudiantes",
-            icon: <Users className="h-5 w-5" />,
-            to: "/admin/asistencias",
-            badge: "156",
-        },
-        {
-            label: "Asistencias",
-            icon: <QrCode className="h-5 w-5" />,
-            to: "/admin/registro",
-            badge: "24",
-        },
-    ];
+        { label: "Dashboard", icon: <BarChart3 className="h-5 w-5" />, to: "/admin/dashboard", badge: null },
+        { label: "Actividades", icon: <Calendar className="h-5 w-5" />, to: "/admin/actividades", badge: "6" },
+        { label: "Conferencias", icon: <BookOpen className="h-5 w-5" />, to: "/admin/conferencias", badge: null },
+        { label: "Estudiantes", icon: <Users className="h-5 w-5" />, to: "/admin/asistencias", badge: "156" },
+        { label: "Asistencias", icon: <QrCode className="h-5 w-5" />, to: "/admin/registro", badge: "24" }
+    ]
 
-    const isActive = (path: string) => location.pathname === path;
+    const isActive = (path: string) => location.pathname === path
 
     const NavButton = ({ item }: { item: typeof navItems[0] }) => {
         const button = (
             <Button
                 onClick={() => {
-                    navigate(item.to);
-                    if (isMobile) setMobileOpen(false);
+                    navigate(item.to)
+                    if (isMobile) setMobileOpen(false)
                 }}
                 variant="ghost"
                 className={`flex items-center w-full transition-all duration-200 mb-1 rounded-lg
@@ -104,19 +80,17 @@ function NavAdmin() {
                     </div>
                 )}
             </Button>
-        );
+        )
 
         return collapsed ? (
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>{button}</TooltipTrigger>
-                    <TooltipContent side="right">
-                        {item.label}
-                    </TooltipContent>
+                    <TooltipContent side="right">{item.label}</TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-        ) : button;
-    };
+        ) : button
+    }
 
     const sidebarClass = `
     h-screen bg-white border-r border-gray-200 fixed top-0 transition-all duration-300 shadow-lg z-50
@@ -124,11 +98,11 @@ function NavAdmin() {
             ? `left-0 ${mobileOpen ? "w-72" : "w-0 overflow-hidden"}`
             : `${collapsed ? "w-20" : "w-72"} left-0`
         }
-  `;
+  `
 
     return (
         <>
-            {/* Botón flotante para abrir sidebar en móviles */}
+            {/* Botón flotante en móviles */}
             {isMobile && !mobileOpen && (
                 <Button
                     onClick={() => setMobileOpen(true)}
@@ -157,9 +131,10 @@ function NavAdmin() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                            isMobile ? setMobileOpen(false) : setCollapsed(!collapsed);
+                            if (isMobile) setMobileOpen(false)
+                            else toggleSidebar()
                         }}
-                        className={`text-white hover:bg-white/20 p-2 rounded-md ${collapsed ? "mx-auto" : ""}`}
+                        className="text-white hover:bg-white/20 p-2 rounded-md"
                     >
                         {isMobile ? <ChevronLeft /> : collapsed ? <ChevronRight /> : <ChevronLeft />}
                     </Button>
@@ -219,8 +194,8 @@ function NavAdmin() {
                 </div>
             </aside>
         </>
-    );
+    )
 }
 
-export default NavAdmin;
+export default NavAdmin
 

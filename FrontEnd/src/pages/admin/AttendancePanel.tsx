@@ -12,8 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Clock, QrCode, Users } from "lucide-react";
 import type { AttendanceRecord } from "@/types/asistencia";
 import { getRecentAttendance } from "@/services/apiAsistencia";
+import { useSidebar } from "@/context/SidebarContext";
 
-const RegistroAsistencias = () => {
+function RegistroAsistencias() {
+    const { collapsed } = useSidebar()
     const [scannerActive, setScannerActive] = useState(false)
     const [recentAttendances, setRecentAttendances] = useState<AttendanceRecord[]>([])
 
@@ -55,7 +57,11 @@ const RegistroAsistencias = () => {
     })
 
     return (
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+
+        <div
+            className={`min-h-screen overflow-x-hidden transition-all duration-300 p-4 sm:p-6 space-y-6 ${collapsed ? "lg:pl-30" : "lg:pl-80"
+                }`}
+        >
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-3xl font-bold text-gray-900">Control de Asistencias</h2>

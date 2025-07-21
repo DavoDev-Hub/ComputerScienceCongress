@@ -5,33 +5,12 @@ import StudentTable from "@/components/adminComponents/tables/StudentTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/context/SidebarContext";
+import { AlumnoConAsistencias } from "@/types/alumno";
 
-interface AlumnoConAsistencias {
-    id: number
-    nombre: string
-    correo: string
-    matricula: number
-    semestre: number
-    asistenciasConferencias: number
-    asistenciasActividades: number
-    totalAsistencias: number
-    detalle: {
-        conferencias: DetalleActividad[]
-        actividades: DetalleActividad[]
-    }
-}
-
-interface DetalleActividad {
-    id: number
-    titulo: string
-    tipo: "conferencia" | "actividad"
-    lugar: string
-    fecha: string
-    hora: string
-    ponente?: string
-}
 
 function StudentPanel() {
+    const { collapsed } = useSidebar()
     const [alumnos, setAlumnos] = useState<AlumnoConAsistencias[]>([])
     const [selectedSemester, setSelectedSemester] = useState<number | null>(null)
     const [selectedAlumno, setSelectedAlumno] = useState<AlumnoConAsistencias | null>(null)
@@ -48,7 +27,11 @@ function StudentPanel() {
         : alumnos
 
     return (
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+
+        <div
+            className={`min-h-screen overflow-x-hidden transition-all duration-300 p-4 sm:p-6 space-y-6 ${collapsed ? "lg:pl-30" : "lg:pl-80"
+                }`}
+        >
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
