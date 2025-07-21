@@ -20,14 +20,13 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use("/api/actividades", actividadRoutes);
-app.use("/api/conferencias", conferenciaRoutes);
-app.use("/api/alumnos", alumnoRoutes);
-app.use("/api/asistencias", asistenciasRoutes)
+// Admin routes
+app.use("/admin/actividades", actividadRoutes);
+app.use("/admin/conferencias", conferenciaRoutes);
+app.use("/admin/alumnos", alumnoRoutes);
+app.use("/admin/asistencias", asistenciasRoutes)
 
-app.get("/", (req, res) => {
-    res.send("Bienvenido a Computer Science Congress API 🚀");
-});
+// User routes
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);

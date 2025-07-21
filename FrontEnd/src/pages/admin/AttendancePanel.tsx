@@ -57,21 +57,14 @@ function RegistroAsistencias() {
     })
 
     return (
-
-        <div
-            className={`min-h-screen overflow-x-hidden transition-all duration-300 p-4 sm:p-6 space-y-6 ${collapsed ? "lg:pl-30" : "lg:pl-80"
-                }`}
-        >
+        <div className="min-h-screen overflow-x-hidden space-y-6 px-4 sm:px-6 mx-auto">
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-3xl font-bold text-gray-900">Control de Asistencias</h2>
                     <p className="text-gray-600">Escanea códigos QR y gestiona asistencias en tiempo real</p>
                 </div>
                 <div className="flex items-center space-x-3">
-                    <Button variant="outline" className="bg-blue-600 hover:bg-blue-700 text-white">
-                        <Users className="h-4 w-4 mr-2" />
-                        Registrar Manualmente
-                    </Button>
+
                     <Button
                         className={`${scannerActive ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}`}
                         onClick={() => setScannerActive(!scannerActive)}
@@ -82,61 +75,6 @@ function RegistroAsistencias() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center">
-                            <div className="p-2 rounded-full bg-green-100">
-                                <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Asistencias Hoy</p>
-                                <p className="text-2xl font-bold text-gray-900">{todayAttendances.length}</p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center">
-                            <Users className="h-8 w-8 text-blue-600" />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Registros</p>
-                                <p className="text-2xl font-bold text-gray-900">{recentAttendances.length}</p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center">
-                            <Clock className="h-8 w-8 text-orange-600" />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Último Registro</p>
-                                <p className="text-sm font-bold text-gray-900">
-                                    {recentAttendances.length > 0 ? formatTime(recentAttendances[0].timestamp) : "N/A"}
-                                </p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center">
-                            <QrCode className={`h-8 w-8 ${scannerActive ? "text-green-600" : "text-gray-400"}`} />
-                            <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Scanner</p>
-                                <p className="text-sm font-bold text-gray-900">{scannerActive ? "Activo" : "Inactivo"}</p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
             <Card>
                 <CardHeader>
                     <CardTitle>Asistencias Recientes</CardTitle>

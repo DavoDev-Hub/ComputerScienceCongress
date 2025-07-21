@@ -1,6 +1,6 @@
 import axios from "axios"
 import type { Asistencia } from "../types/asistencia"
-const API_URL = "http://localhost:3000/api"
+const API_URL = "http://localhost:3000/admin"
 
 export const getAllAlumnosWithAsistencias = async () => {
     const response = await axios.get(`${API_URL}/asistencias/`)
