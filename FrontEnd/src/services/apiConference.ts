@@ -1,6 +1,6 @@
 import axios from "axios"
 import type { Conferencia } from "../types/conference"
-const API_BASE = "http://localhost:3000/api"
+const API_BASE = "http://localhost:3000/admin"
 
 
 export const getConferencias = async (): Promise<Conferencia[]> => {

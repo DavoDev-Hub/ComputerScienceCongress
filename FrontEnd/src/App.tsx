@@ -1,21 +1,25 @@
+// src/App.tsx
 import { Routes, Route } from 'react-router-dom'
+import AdminLayout from '@/layouts/AdminLayout'
+import StudentLayout from '@/layouts/StudentLayout'
 import ActivityPanel from '@/pages/admin/ActivityPanel'
 import ConferencePanel from '@/pages/admin/ConferencePanel'
-import NavbarAdmin from './components/nav/navAdmin'
 import StudentPanel from '@/pages/admin/StudentPanel'
 import AttendancePanel from '@/pages/admin/AttendancePanel'
-import { Toaster } from 'sonner'
 
 function App() {
     return (
         <>
-            <NavbarAdmin />
-            <Toaster richColors position="bottom-right" />
             <Routes>
-                <Route path="/admin/actividades" element={<ActivityPanel />} />
-                <Route path="/admin/conferencias" element={<ConferencePanel />} />
-                <Route path="/admin/asistencias" element={<StudentPanel />} />
-                <Route path="/admin/registro" element={<AttendancePanel />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                    <Route path="actividades" element={<ActivityPanel />} />
+                    <Route path="conferencias" element={<ConferencePanel />} />
+                    <Route path="asistencias" element={<StudentPanel />} />
+                    <Route path="registro" element={<AttendancePanel />} />
+                </Route>
+
+                <Route path="/alumno" element={<StudentLayout />}>
+                </Route>
             </Routes>
         </>
     )

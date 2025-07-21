@@ -10,7 +10,6 @@ import { AlumnoConAsistencias } from "@/types/alumno";
 
 
 function StudentPanel() {
-    const { collapsed } = useSidebar()
     const [alumnos, setAlumnos] = useState<AlumnoConAsistencias[]>([])
     const [selectedSemester, setSelectedSemester] = useState<number | null>(null)
     const [selectedAlumno, setSelectedAlumno] = useState<AlumnoConAsistencias | null>(null)
@@ -27,12 +26,7 @@ function StudentPanel() {
         : alumnos
 
     return (
-
-        <div
-            className={`min-h-screen overflow-x-hidden transition-all duration-300 p-4 sm:p-6 space-y-6 ${collapsed ? "lg:pl-30" : "lg:pl-80"
-                }`}
-        >
-            {/* Header */}
+        <div className="min-h-screen overflow-x-hidden space-y-6 px-4 sm:px-6 mx-auto">
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-3xl font-bold text-gray-900">Gestión de Alumnos</h2>
@@ -59,32 +53,6 @@ function StudentPanel() {
                         </SelectContent>
                     </Select>
                 </div>
-            </div>
-
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card>
-                    <CardContent className="p-6 text-center">
-                        <p className="text-2xl font-bold text-gray-900">{filteredAlumnos.length}</p>
-                        <p className="text-sm text-gray-600">Total Alumnos</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent className="p-6 text-center">
-                        <p className="text-2xl font-bold text-blue-600">
-                            {filteredAlumnos.reduce((sum, a) => sum + a.asistenciasConferencias, 0)}
-                        </p>
-                        <p className="text-sm text-gray-600">Total Asistencias Conferencias</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent className="p-6 text-center">
-                        <p className="text-2xl font-bold text-pink-600">
-                            {filteredAlumnos.reduce((sum, a) => sum + a.asistenciasActividades, 0)}
-                        </p>
-                        <p className="text-sm text-gray-600">Total Asistencias Actividades</p>
-                    </CardContent>
-                </Card>
             </div>
             <Card>
                 <CardHeader>

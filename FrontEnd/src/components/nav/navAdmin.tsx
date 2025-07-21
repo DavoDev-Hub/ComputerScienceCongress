@@ -34,11 +34,11 @@ function NavAdmin() {
     }, [])
 
     const navItems = [
-        { label: "Dashboard", icon: <BarChart3 className="h-5 w-5" />, to: "/admin/dashboard", badge: null },
-        { label: "Actividades", icon: <Calendar className="h-5 w-5" />, to: "/admin/actividades", badge: "6" },
-        { label: "Conferencias", icon: <BookOpen className="h-5 w-5" />, to: "/admin/conferencias", badge: null },
-        { label: "Estudiantes", icon: <Users className="h-5 w-5" />, to: "/admin/asistencias", badge: "156" },
-        { label: "Asistencias", icon: <QrCode className="h-5 w-5" />, to: "/admin/registro", badge: "24" }
+        { label: "Dashboard", icon: <BarChart3 className="h-5 w-5" />, to: "/admin/dashboard", },
+        { label: "Actividades", icon: <Calendar className="h-5 w-5" />, to: "/admin/actividades", },
+        { label: "Conferencias", icon: <BookOpen className="h-5 w-5" />, to: "/admin/conferencias", },
+        { label: "Estudiantes", icon: <Users className="h-5 w-5" />, to: "/admin/asistencias", },
+        { label: "Asistencias", icon: <QrCode className="h-5 w-5" />, to: "/admin/registro", }
     ]
 
     const isActive = (path: string) => location.pathname === path
@@ -102,7 +102,6 @@ function NavAdmin() {
 
     return (
         <>
-            {/* Botón flotante en móviles */}
             {isMobile && !mobileOpen && (
                 <Button
                     onClick={() => setMobileOpen(true)}
@@ -114,7 +113,6 @@ function NavAdmin() {
             )}
 
             <aside className={sidebarClass}>
-                {/* Header */}
                 <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 bg-uaa-blue">
                     {!collapsed && !isMobile && (
                         <div className="flex items-center space-x-3">
@@ -156,7 +154,6 @@ function NavAdmin() {
                     )}
                 </div>
 
-                {/* Navegación */}
                 <nav className="flex flex-col mt-4 flex-1 overflow-y-auto">
                     <div className={`mb-2 ${collapsed ? "px-1" : "px-2"}`}>
                         {!collapsed && (

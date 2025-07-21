@@ -1,6 +1,6 @@
 import axios from "axios"
 import type { Actividad } from "../types/activity"
-const API_BASE = "http://localhost:3000/api"
+const API_BASE = "http://localhost:3000/admin"
 
 export const getActividades = async (): Promise<Actividad[]> => {
     const res = await axios.get(`${API_BASE}/actividades`)
