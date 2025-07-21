@@ -21,6 +21,7 @@ app.use(cors({
 app.use(express.json());
 
 // Admin routes
+// dashboard //
 app.use("/admin/actividades", actividadRoutes);
 app.use("/admin/conferencias", conferenciaRoutes);
 app.use("/admin/alumnos", alumnoRoutes);
