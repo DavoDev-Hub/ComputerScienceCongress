@@ -7,8 +7,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Users, Trophy, QrCode } from "lucide-react"
 import { ModalCrearActividad } from "@/components/adminComponents/modals/modalActivityAdd"
 import { toast } from "sonner"
+import { useSidebar } from "@/context/SidebarContext"
 
 function ActivityPanel() {
+    const { collapsed } = useSidebar()
     const [actividades, setActividades] = useState<Actividad[]>([])
     const [editingActividad, setEditingActividad] = useState<Actividad | null>(null)
 
@@ -21,9 +23,8 @@ function ActivityPanel() {
         fetchActividades()
     }, [])
 
-    const filteredActividades = (tipo: "all" | "academico" | "recreativo") => {
-        return actividades.filter((actividad) => tipo === "all" || actividad.tipo === tipo)
-    }
+    const filteredActividades = (tipo: "all" | "academico" | "recreativo") =>
+        actividades.filter((actividad) => tipo === "all" || actividad.tipo === tipo)
 
     const handleDelete = async (id: string) => {
         try {
@@ -36,10 +37,15 @@ function ActivityPanel() {
     }
 
     return (
-        <div className="min-h-screen overflow-x-hidden lg:pl-72 p-4 sm:p-6 space-y-6">
+        <div
+            className={`min-h-screen overflow-x-hidden transition-all duration-300 p-4 sm:p-6 space-y-6 ${collapsed ? "lg:pl-30" : "lg:pl-80"
+                }`}
+        >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Panel de administración de actividades</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                        Panel de administración de actividades
+                    </h2>
                     <p className="text-gray-600">Gestiona todas las actividades del congreso</p>
                 </div>
                 <ModalCrearActividad onSuccess={fetchActividades} />
@@ -51,7 +57,9 @@ function ActivityPanel() {
                         <div className="flex items-center">
                             <BookOpen className="h-8 w-8 text-uaa-blue" />
                             <div className="ml-4">
-                                <p className="text-sm font-medium text-gray-600">Total Conferencias y Actividades</p>
+                                <p className="text-sm font-medium text-gray-600">
+                                    Total Conferencias y Actividades
+                                </p>
                                 <p className="text-2xl font-bold text-gray-900">{actividades.length}</p>
                             </div>
                         </div>
