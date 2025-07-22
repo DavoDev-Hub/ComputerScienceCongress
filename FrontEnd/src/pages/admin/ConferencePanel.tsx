@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react"
-import type { Conferencia } from "@/types/conference"
-import { getConferencias, eliminarConferencia } from "@/services/apiConference"
+import type { Conferencia } from "@/types/adminTypes/conference"
+import { getConferencias, eliminarConferencia } from "@/services/adminServices/apiConference"
 import { ConferenceCard } from "@/components/adminComponents/cards/ConferenceCard"
-import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Users, Trophy, QrCode } from 'lucide-react'
 import { ModalCrearConferencia } from "@/components/adminComponents/modals/modalConferenceAdd"
 import { toast } from "sonner"
 

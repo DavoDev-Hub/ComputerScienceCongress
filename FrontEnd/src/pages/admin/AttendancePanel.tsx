@@ -9,13 +9,11 @@ import {
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, QrCode, Users } from "lucide-react";
-import type { AttendanceRecord } from "@/types/asistencia";
-import { getRecentAttendance } from "@/services/apiAsistencia";
-import { useSidebar } from "@/context/SidebarContext";
+import { Clock, QrCode } from "lucide-react";
+import type { AttendanceRecord } from "@/types/adminTypes/asistencia";
+import { getRecentAttendance } from "@/services/adminServices/apiAsistencia";
 
 function RegistroAsistencias() {
-    const { collapsed } = useSidebar()
     const [scannerActive, setScannerActive] = useState(false)
     const [recentAttendances, setRecentAttendances] = useState<AttendanceRecord[]>([])
 
@@ -49,12 +47,6 @@ function RegistroAsistencias() {
             year: "numeric",
         })
     }
-
-    const todayAttendances = recentAttendances.filter((attendance) => {
-        const today = new Date().toDateString()
-        const attendanceDate = new Date(attendance.timestamp).toDateString()
-        return today === attendanceDate
-    })
 
     return (
         <div className="min-h-screen overflow-x-hidden space-y-6 px-4 sm:px-6 mx-auto">
