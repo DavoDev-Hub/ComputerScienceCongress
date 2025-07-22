@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { startOfDay, endOfDay } from 'date-fns'
 const prisma = new PrismaClient();
-
 export const getDashboardData = async (req: Request, res: Response) => {
     try {
         const now = new Date()
@@ -32,13 +31,15 @@ export const getDashboardData = async (req: Request, res: Response) => {
         const actividadesActivas = await prisma.actividad.findMany({
             where: {
                 fecha: {
-                    equals: new Date().toISOString().split("T")[0], // solo las de hoy
+                    gte: startOfDay(new Date()),
+                    lte: endOfDay(new Date()),
                 },
             },
             include: {
                 inscripcion: true,
             },
         })
+
 
         const recentAttendances = await prisma.asistencia.findMany({
             take: 5,
@@ -73,7 +74,7 @@ export const getDashboardData = async (req: Request, res: Response) => {
             })),
         })
     } catch (error) {
-        console.error(error)
+        console.error("Error en /admin/dashboard:", error)
         res.status(500).json({ error: 'Error interno del servidor' })
     }
 }
