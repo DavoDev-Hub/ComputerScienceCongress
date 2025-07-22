@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { getAllAlumnosWithAsistencias } from "@/services/apiAsistencia";
+import { getAllAlumnosWithAsistencias } from "@/services/adminServices/apiAsistencia";
 import StudentDetailModal from "@/components/adminComponents/modals/StudentDetailModal";
+import { AlumnoConAsistencias } from "@/types/adminTypes/alumno";
 import StudentTable from "@/components/adminComponents/tables/StudentTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/context/SidebarContext";
-import { AlumnoConAsistencias } from "@/types/alumno";
-
 
 function StudentPanel() {
     const [alumnos, setAlumnos] = useState<AlumnoConAsistencias[]>([])
