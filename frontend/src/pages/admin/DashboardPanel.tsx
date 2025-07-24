@@ -198,9 +198,6 @@ function DashboardPanel() {
                                 </div>
                             </div>
                         ))}
-                        <Button variant="outline" className="w-full bg-transparent" size="sm">
-                            Ver Todas las Asistencias
-                        </Button>
                     </CardContent>
                 </Card>
             </div>
