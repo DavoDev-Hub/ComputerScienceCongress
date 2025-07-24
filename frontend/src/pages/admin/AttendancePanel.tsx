@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
     CardDescription
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Clock, QrCode } from "lucide-react";
-import type { AttendanceRecord } from "@/types/adminTypes/asistencia";
-import { getRecentAttendance } from "@/services/adminServices/apiAsistencia";
+} from "@/components/ui/card"
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Clock, QrCode } from "lucide-react"
+import { toast } from "sonner"
+import type { AttendanceRecord } from "@/types/adminTypes/asistencia"
+import { getRecentAttendance, createAsistencia } from "@/services/adminServices/apiAsistencia"
+import QRScanner from "@/components/adminComponents/qr/QrScanner"
 
 function RegistroAsistencias() {
     const [scannerActive, setScannerActive] = useState(false)
@@ -48,6 +50,22 @@ function RegistroAsistencias() {
         })
     }
 
+    const handleQRSuccess = async (data: {
+        id_alumno: number
+        id_actividad?: number
+        id_conferencia?: number
+        fecha_asistencia: string
+    }) => {
+        try {
+            await createAsistencia(data)
+            toast.success("Asistencia registrada correctamente")
+            fetchData()
+        } catch (error) {
+            toast.error("Error al registrar la asistencia")
+            console.error("Error al registrar asistencia:", error)
+        }
+    }
+
     return (
         <div className="min-h-screen overflow-x-hidden space-y-6 px-4 sm:px-6 mx-auto">
             <div className="flex items-center justify-between">
@@ -56,7 +74,6 @@ function RegistroAsistencias() {
                     <p className="text-gray-600">Escanea códigos QR y gestiona asistencias en tiempo real</p>
                 </div>
                 <div className="flex items-center space-x-3">
-
                     <Button
                         className={`${scannerActive ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}`}
                         onClick={() => setScannerActive(!scannerActive)}
@@ -66,6 +83,13 @@ function RegistroAsistencias() {
                     </Button>
                 </div>
             </div>
+
+            {scannerActive && (
+                <QRScanner
+                    onSuccess={handleQRSuccess}
+                    onClose={() => setScannerActive(false)}
+                />
+            )}
 
             <Card>
                 <CardHeader>
@@ -98,7 +122,10 @@ function RegistroAsistencias() {
                                     <div className="text-right">
                                         <div className="flex items-center space-x-2 mb-1">
                                             <Badge
-                                                className={`${record.activity.type === "academic" ? "bg-blue-100 text-blue-800" : "bg-pink-100 text-pink-800"}`}
+                                                className={`${record.activity.type === "academic"
+                                                    ? "bg-blue-100 text-blue-800"
+                                                    : "bg-pink-100 text-pink-800"
+                                                    }`}
                                             >
                                                 {record.activity.type === "academic" ? "Conferencia" : "Actividad"}
                                             </Badge>
@@ -129,5 +156,5 @@ function RegistroAsistencias() {
     )
 }
 
-export default RegistroAsistencias;
+export default RegistroAsistencias
 
