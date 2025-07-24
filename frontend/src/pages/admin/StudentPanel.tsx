@@ -6,6 +6,7 @@ import StudentTable from "@/components/adminComponents/tables/StudentTable";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import exportAlumnosToExcel from "@/components/adminComponents/tables/exportToExcel";
 
 function StudentPanel() {
     const [alumnos, setAlumnos] = useState<AlumnoConAsistencias[]>([])
@@ -31,8 +32,9 @@ function StudentPanel() {
                     <p className="text-gray-600">Visualiza alumnos y sus asistencias por semestre</p>
                 </div>
                 <div className="flex items-center space-x-3">
-                    <Button variant="outline" className="bg-green-600 hover:bg-green-700 text-white">
-                        Descargar Excel
+                    <Button variant="outline" className="bg-green-600 hover:bg-green-700 text-white"
+                        onClick={() => exportAlumnosToExcel(filteredAlumnos, selectedSemester)}
+                    > Descargar Excel
                     </Button>
                     <Select
                         value={selectedSemester !== null ? selectedSemester.toString() : "all"}
