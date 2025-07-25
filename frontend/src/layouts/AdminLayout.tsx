@@ -14,7 +14,7 @@ export default function AdminLayout() {
                 className={`transition-all duration-300 min-h-screen w-full
                 ${collapsed ? 'lg:ml-20' : 'lg:ml-72'}`}
             >
-                <header className="h-20 w-full bg-uaa-blue shadow-md fixed top-0 z-10" />
+                <header className="h-20 w-full bg-uaa-blue fixed" />
 
                 <main className="px-0 sm:px-6 py-6 pt-32">
                     <Toaster richColors position="bottom-right" />
