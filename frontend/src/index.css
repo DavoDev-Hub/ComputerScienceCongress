@@ -2,13 +2,10 @@
 @import "tw-animate-css";
 
 video {
-    object-fit: cover;
-}
-
-#reader video {
-    object-fit: cover !important;
     width: 100% !important;
     height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 0.5rem;
 }
 
 @custom-variant dark (&:is(.dark *));

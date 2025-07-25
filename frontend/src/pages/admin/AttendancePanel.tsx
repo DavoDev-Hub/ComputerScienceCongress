@@ -1,70 +1,89 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
     CardDescription
-} from "@/components/ui/card"
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Clock, QrCode } from "lucide-react"
-import { toast } from "sonner"
-import type { AttendanceRecord } from "@/types/adminTypes/asistencia"
-import { getRecentAttendance, createAsistencia } from "@/services/adminServices/apiAsistencia"
-import QRScanner from "@/components/adminComponents/qr/QrScanner"
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Clock, QrCode } from "lucide-react";
+import { toast } from "sonner";
+import type { AttendanceRecord } from "@/types/adminTypes/asistencia";
+import { getRecentAttendance, createAsistencia } from "@/services/adminServices/apiAsistencia";
+import QRScanner from "@/components/adminComponents/qr/QrScanner";
 
 function RegistroAsistencias() {
-    const [scannerActive, setScannerActive] = useState(false)
-    const [recentAttendances, setRecentAttendances] = useState<AttendanceRecord[]>([])
+    const [scannerActive, setScannerActive] = useState(false);
+    const [recentAttendances, setRecentAttendances] = useState<AttendanceRecord[]>([]);
+    const [lastScannedAlumno, setLastScannedAlumno] = useState<number | null>(null);
+    const [scanCooldown, setScanCooldown] = useState(false);
 
     const fetchData = async () => {
         try {
-            const data = await getRecentAttendance()
-            setRecentAttendances(data)
+            const data = await getRecentAttendance();
+            setRecentAttendances(data);
         } catch (error) {
-            console.error("Error al obtener asistencias recientes:", error)
+            console.error("Error al obtener asistencias recientes:", error);
         }
-    }
+    };
 
     useEffect(() => {
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
+
+    const handleScan = async (data: string | null) => {
+        if (!data || scanCooldown) return;
+
+        try {
+            const parsed = JSON.parse(data);
+            const { id_alumno, id_actividad, id_conferencia, fecha_asistencia } = parsed;
+
+            if (id_alumno === lastScannedAlumno) return;
+
+            await createAsistencia({
+                id_alumno,
+                id_actividad,
+                id_conferencia,
+                fecha_asistencia,
+            });
+
+            toast.success("Asistencia registrada correctamente");
+
+            setLastScannedAlumno(id_alumno);
+            setScanCooldown(true);
+            setScannerActive(false);
+            fetchData();
+
+            setTimeout(() => {
+                setScanCooldown(false);
+                setLastScannedAlumno(null);
+            }, 3000);
+        } catch (error) {
+            toast.error("QR inválido o asistencia fallida");
+            console.error("Error al procesar QR:", error);
+        }
+    };
 
     const formatTime = (timestamp: string) => {
-        const date = new Date(timestamp)
+        const date = new Date(timestamp);
         return date.toLocaleTimeString("es-MX", {
             hour: "2-digit",
             minute: "2-digit",
             hour12: true,
-        })
-    }
+        });
+    };
 
     const formatDate = (timestamp: string) => {
-        const date = new Date(timestamp)
+        const date = new Date(timestamp);
         return date.toLocaleDateString("es-MX", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
-        })
-    }
-
-    const handleQRSuccess = async (data: {
-        id_alumno: number
-        id_actividad?: number
-        id_conferencia?: number
-        fecha_asistencia: string
-    }) => {
-        try {
-            await createAsistencia(data)
-            toast.success("Asistencia registrada correctamente")
-            fetchData()
-        } catch (error) {
-            toast.error("Error al registrar la asistencia")
-            console.error("Error al registrar asistencia:", error)
-        }
-    }
+        });
+    };
 
     return (
         <div className="min-h-screen overflow-x-hidden space-y-6 px-4 sm:px-6 mx-auto">
@@ -85,10 +104,9 @@ function RegistroAsistencias() {
             </div>
 
             {scannerActive && (
-                <QRScanner
-                    onSuccess={handleQRSuccess}
-                    onClose={() => setScannerActive(false)}
-                />
+                <div className="rounded-lg border p-4 shadow-md bg-white">
+                    <QRScanner onScanSuccess={handleScan} />
+                </div>
             )}
 
             <Card>
@@ -105,12 +123,13 @@ function RegistroAsistencias() {
                                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
                                 >
                                     <div className="flex items-center space-x-4">
-                                        <Avatar className="h-12 w-12">
-                                            <AvatarFallback className="bg-uaa-blue text-white">
+                                        <Avatar className="h-10 w-10 bg-uaa-blue text-white flex items-center justify-center rounded-full">
+                                            <AvatarFallback className="text-sm font-semibold">
                                                 {record.student.name
                                                     .split(" ")
                                                     .map((n) => n[0])
-                                                    .join("")}
+                                                    .join("")
+                                                    .slice(0, 2)}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div>
@@ -153,8 +172,8 @@ function RegistroAsistencias() {
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }
 
-export default RegistroAsistencias
+export default RegistroAsistencias;
 
