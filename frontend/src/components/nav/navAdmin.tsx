@@ -82,7 +82,7 @@ function NavAdmin() {
     }
 
     const sidebarClass = `
-    h-screen bg-white border-r border-gray-200 fixed top-0 transition-all duration-300 shadow-lg z-50
+    h-screen bg-white  border-gray-200 fixed transition-all duration-300 z-50
     ${isMobile
             ? `left-0 ${mobileOpen ? "w-72" : "w-0 overflow-hidden"}`
             : `${collapsed ? "w-20" : "w-72"} left-0`
@@ -92,21 +92,28 @@ function NavAdmin() {
     return (
         <>
             {isMobile && !mobileOpen && (
-                <Button
-                    onClick={() => setMobileOpen(true)}
-                    className="fixed top-4 left-4 z-50 bg-uaa-blue text-white hover:bg-uaa-blue/80"
-                    size="icon"
-                >
-                    <Menu />
-                </Button>
+                <div className="w-full h-20 bg-uaa-blue flex items-center px-4 fixed top-0 left-0 z-40">
+                    <Button
+                        onClick={() => setMobileOpen(true)}
+                        className="text-white hover:bg-uaa-blue/80"
+                        variant="ghost"
+                        size="icon"
+                    >
+                        <Menu />
+                    </Button>
+
+                    <div className="ml-auto bg-white h-8 w-8 rounded-md shadow-sm flex items-center justify-center">
+                        <img src={logoUaa} alt="UAA" className="h-5 w-5" />
+                    </div>
+                </div>
             )}
 
             <aside className={sidebarClass}>
-                <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 bg-uaa-blue">
+                <div className="flex items-center justify-between px-4 py-4 h-20 border-b border-gray-200 bg-uaa-blue">
                     {!collapsed && !isMobile && (
                         <div className="flex items-center space-x-3">
-                            <div className="bg-white p-1.5 rounded-lg shadow-sm">
-                                <img src={logoUaa} alt="UAA" className="h-7 w-auto" />
+                            <div className="bg-white h-10 w-10 rounded-lg shadow-sm flex items-center justify-center">
+                                <img src={logoUaa} alt="UAA" className="h-6 w-6" />
                             </div>
                             <div>
                                 <h1 className="text-lg font-bold text-white">CS CONGRESO</h1>
@@ -127,7 +134,6 @@ function NavAdmin() {
                     </Button>
                 </div>
 
-                {/* Perfil */}
                 <div className={`flex flex-col items-center border-b border-gray-200 bg-gray-50 ${collapsed ? "py-4" : "py-6"}`}>
                     <Avatar className={`border-4 border-white shadow-lg ${collapsed ? "h-12 w-12" : "h-16 w-16"}`}>
                         <AvatarFallback className="bg-uaa-blue text-white text-lg font-bold">AD</AvatarFallback>
