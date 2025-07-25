@@ -7,17 +7,20 @@ export default function AdminLayout() {
     const { collapsed } = useSidebar()
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen">
             <Sidebar />
 
-            <main
-                className={`transition-all duration-300 min-h-screen w-full px-4 sm:px-6 py-6 ${collapsed ? 'lg:pl-20' : 'lg:pl-72'
-                    }`}
+            <div
+                className={`transition-all duration-300 min-h-screen w-full
+                ${collapsed ? 'lg:ml-20' : 'lg:ml-72'}`}
             >
-                <Toaster richColors position="bottom-right" />
+                <header className="h-20 w-full bg-uaa-blue shadow-md fixed top-0 z-10" />
 
-                <Outlet />
-            </main>
+                <main className="px-0 sm:px-6 py-6 pt-32">
+                    <Toaster richColors position="bottom-right" />
+                    <Outlet />
+                </main>
+            </div>
         </div>
     )
 }
