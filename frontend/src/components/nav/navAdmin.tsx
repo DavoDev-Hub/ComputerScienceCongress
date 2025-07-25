@@ -109,7 +109,7 @@ function NavAdmin() {
             )}
 
             <aside className={sidebarClass}>
-                <div className="flex items-center justify-between px-4 py-4 h-20 border-b border-gray-200 bg-uaa-blue">
+                <div className="flex items-center justify-between px-4 py-4 h-20  border-gray-200 bg-uaa-blue">
                     {!collapsed && !isMobile && (
                         <div className="flex items-center space-x-3">
                             <div className="bg-white h-10 w-10 rounded-lg shadow-sm flex items-center justify-center">
