@@ -33,40 +33,6 @@ function RegistroAsistencias() {
     useEffect(() => {
         fetchData();
     }, []);
-
-    const handleScan = async (data: string | null) => {
-        if (!data || scanCooldown) return;
-
-        try {
-            const parsed = JSON.parse(data);
-            const { id_alumno, id_actividad, id_conferencia, fecha_asistencia } = parsed;
-
-            if (id_alumno === lastScannedAlumno) return;
-
-            await createAsistencia({
-                id_alumno,
-                id_actividad,
-                id_conferencia,
-                fecha_asistencia,
-            });
-
-            toast.success("Asistencia registrada correctamente");
-
-            setLastScannedAlumno(id_alumno);
-            setScanCooldown(true);
-            setScannerActive(false);
-            fetchData();
-
-            setTimeout(() => {
-                setScanCooldown(false);
-                setLastScannedAlumno(null);
-            }, 3000);
-        } catch (error) {
-            toast.error("QR inválido o asistencia fallida");
-            console.error("Error al procesar QR:", error);
-        }
-    };
-
     const formatTime = (timestamp: string) => {
         const date = new Date(timestamp);
         return date.toLocaleTimeString("es-MX", {
@@ -105,7 +71,11 @@ function RegistroAsistencias() {
 
             {scannerActive && (
                 <div className="rounded-lg border p-4 shadow-md bg-white">
-                    <QRScanner onScanSuccess={handleScan} />
+                    <QRScanner onScanSuccess={() => {
+                        fetchData();
+                        setScannerActive(false);
+                        setTimeout(() => setScannerActive(true), 5000);
+                    }} />
                 </div>
             )}
 
