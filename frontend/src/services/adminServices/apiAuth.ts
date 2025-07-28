@@ -5,7 +5,7 @@ const API_BASE = "http://localhost:3000/admin"
 export const loginAdmin = async (correo: string, password: string) => {
     try {
         const response = await axios.post(
-            `${API_BASE}/admin/login`, { correo, password },
+            `${API_BASE}/login`, { correo, password },
             { withCredentials: true }
         )
 

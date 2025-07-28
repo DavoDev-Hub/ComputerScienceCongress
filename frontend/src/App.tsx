@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-//admin page
 import AdminLayout from '@/layouts/AdminLayout'
 import StudentLayout from '@/layouts/StudentLayout'
 import ActivityPanel from '@/pages/admin/ActivityPanel'
