@@ -26,8 +26,8 @@ function NavAdmin() {
     const handleLogout = async () => {
         try {
             await logoutAdmin()
-            localStorage.removeItem("adminAuth")
-            window.location.href = "/admin/login"
+            document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+            navigate("/admin/login")
         } catch (error) {
             console.error("Error al cerrar sesión:", error)
         }
