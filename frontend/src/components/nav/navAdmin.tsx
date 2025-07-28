@@ -4,7 +4,6 @@ import {
     Users, QrCode, LogOut, Calendar, BookOpen, BarChart3,
     ChevronLeft, ChevronRight, Menu
 } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -14,6 +13,7 @@ import {
 import logoUaa from "@/assets/logo_uaa.svg"
 import "@/App.css"
 import { useSidebar } from "@/context/SidebarContext"
+import { logoutAdmin } from "@/services/adminServices/apiAuth"
 
 function NavAdmin() {
     const { collapsed, toggleSidebar } = useSidebar()
@@ -22,6 +22,16 @@ function NavAdmin() {
 
     const navigate = useNavigate()
     const location = useLocation()
+
+    const handleLogout = async () => {
+        try {
+            await logoutAdmin()
+            localStorage.removeItem("adminAuth")
+            window.location.href = "/admin/login"
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error)
+        }
+    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -174,7 +184,7 @@ function NavAdmin() {
                     flex items-center w-full hover:bg-red-50 text-red-600 hover:text-red-700 rounded-lg transition-colors
                     ${collapsed ? "justify-center px-2 py-3" : "justify-start px-3 py-2"}
                   `}
-                                    onClick={() => console.log("Cerrar sesión...")}
+                                    onClick={handleLogout}
                                 >
                                     <LogOut className="h-4 w-4" />
                                     {!collapsed && <span className="ml-2 text-sm">Cerrar sesión</span>}

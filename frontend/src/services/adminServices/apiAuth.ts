@@ -5,7 +5,7 @@ const API_BASE = "http://localhost:3000/admin"
 export const loginAdmin = async (correo: string, password: string) => {
     try {
         const response = await axios.post(
-            `${API_BASE}/login`, { correo, password },
+            `${API_BASE}/auth/login`, { correo, password },
             { withCredentials: true }
         )
 
@@ -18,8 +18,12 @@ export const loginAdmin = async (correo: string, password: string) => {
     }
 }
 
+export const logoutAdmin = async () => {
+    return await axios.post(`${API_BASE}/auth/logout`, {}, { withCredentials: true })
+}
+
 export const checkSession = async () => {
-    const response = await axios.get(`${API_BASE}/check`, {
+    const response = await axios.get(`${API_BASE}/auth/check`, {
         withCredentials: true
     })
     return response.data
