@@ -18,3 +18,10 @@ export const loginAdmin = async (correo: string, password: string) => {
     }
 }
 
+export const checkSession = async () => {
+    const response = await axios.get(`${API_BASE}/check`, {
+        withCredentials: true
+    })
+    return response.data
+}
+
