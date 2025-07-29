@@ -1,6 +1,6 @@
 # Archivos de entorno
+*.env
 .env.*
-
 # Node
 node_modules/
 
