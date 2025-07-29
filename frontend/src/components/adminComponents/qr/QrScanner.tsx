@@ -4,12 +4,11 @@ import { toast } from "sonner";
 import { createAsistencia } from "@/services/adminServices/apiAsistencia";
 
 function QRScanner({ onScanSuccess }: { onScanSuccess: () => void }) {
-    const [scanning, setScanning] = useState(true);
+    const [, setScanning] = useState(true);
     const lastScannedRef = useRef<string | null>(null);
 
     const handleScan = async (data: string | null) => {
         if (!data || data === lastScannedRef.current) return;
-
         setScanning(false);
         lastScannedRef.current = data;
 
