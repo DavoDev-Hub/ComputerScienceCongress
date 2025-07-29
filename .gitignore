@@ -1,7 +1,6 @@
 # Archivos de entorno
-.env
-.env.local
-.env.production
+.env.*
+
 # Node
 node_modules/
 
