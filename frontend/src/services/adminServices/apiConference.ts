@@ -1,5 +1,5 @@
 import { Conferencia } from "@/types/adminTypes/conference"
-const API_BASE = "http://localhost:3000/admin"
+const API_BASE = `${import.meta.env.VITE_API_URL}`
 import { api } from "./axiosInstance"
 
 export const getConferencias = async (): Promise<Conferencia[]> => {

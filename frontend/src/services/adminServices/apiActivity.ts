@@ -1,7 +1,6 @@
 import { Actividad } from "@/types/adminTypes/activity"
-const API_BASE = "http://localhost:3000/admin"
 import { api } from "./axiosInstance"
-
+const API_BASE = `${import.meta.env.VITE_API_URL}`
 
 export const getActividades = async (): Promise<Actividad[]> => {
     const res = await api.get(`${API_BASE}/actividades`)
