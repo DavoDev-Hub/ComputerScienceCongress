@@ -1,6 +1,6 @@
 import { Asistencia } from "@/types/adminTypes/asistencia"
 import { api } from "./axiosInstance"
-const API_BASE = `${import.meta.env.VITE_API_URL}`
+const API_BASE = `${import.meta.env.VITE_API_URL}/admin`
 
 export const getAllAlumnosWithAsistencias = async () => {
     const response = await api.get(`${API_BASE}/asistencias/`)

@@ -1,5 +1,5 @@
 import axios from "axios"
-const API_BASE = `${import.meta.env.VITE_API_URL}`
+const API_BASE = `${import.meta.env.VITE_API_URL}/admin`
 
 export const loginAdmin = async (correo: string, password: string) => {
     try {
