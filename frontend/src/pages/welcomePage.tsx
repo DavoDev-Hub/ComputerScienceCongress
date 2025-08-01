@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, Users, Trophy, Sparkles, BookOpen, Microscope } from "lucide-react"
-// import Footer from "./footer" // Importar el componente Footer
+import Footer from "@/components/Footer"
 import logoUaaXL from "@/assets/UaaXL.png"
 
 export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
@@ -42,7 +42,7 @@ export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
 
     return (
         <div className="flex flex-col flex-grow relative overflow-hidden">
-            {/* Fondo Dinámico Inspirado en el Logo - Ahora más azulado */}
+            {/* Fondo Dinámico Inspirado en el Logo  */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200">
                 {/* Formas Orgánicas Grandes */}
                 <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-[#002E5D]/25 to-blue-400/15 rounded-full animate-pulse blur-3xl"></div>
@@ -67,28 +67,16 @@ export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
                 ></div>
 
                 {/* Ondas de Fondo */}
-                <svg className="absolute bottom-0 left-0 w-full h-64 opacity-10" viewBox="0 0 1200 320" fill="none">
-                    <path
-                        d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-                        fill="url(#wave1)"
-                    />
-                    <defs>
-                        <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#002E5D" />
-                            <stop offset="50%" stopColor="#004E9D" />
-                            <stop offset="100%" stopColor="#002E5D" />
-                        </linearGradient>
-                    </defs>
-                </svg>
+
             </div>
 
             {/* Contenido Principal */}
             <div className="relative z-10 flex-grow flex flex-col">
                 {/* Header con Logo */}
-                <header className="p-8">
+                <header className="pt-8 pb-2 px-8">
                     <div className="flex items-center justify-center space-x-4">
                         <div className="text-center">
-                            <img src={logoUaaXL} alt="UAA Logo" className="w-60 h-auto md:w-72 lg:w-80 mx-auto object-contain" />
+                            <img src={logoUaaXL} alt="UAA Logo" className="w-80 h-auto md:w-96 lg:w-96 mx-auto object-contain" />
                         </div>
                     </div>
                 </header>
@@ -200,6 +188,7 @@ export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
                     />
                 ))}
             </div>
+            <Footer />
         </div>
     )
 }
