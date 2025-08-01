@@ -2,12 +2,44 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import logoUaa from "@/assets/logo_uaa.svg"
+import FeatureCard from "@/components/welcomeComponents/FeatureCard"
+import { BookOpen, Microscope, Users, Trophy } from "lucide-react"
 
 export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
     const [isVisible, setIsVisible] = useState(false)
-
+    const [currentFeature, setCurrentFeature] = useState(0)
     useEffect(() => {
         setIsVisible(true)
+    }, [])
+
+    const features = [
+        {
+            icon: BookOpen,
+            title: "Conferencias Magistrales",
+            description: "Expertos internacionales compartiendo conocimiento",
+        },
+        {
+            icon: Microscope,
+            title: "Investigación Innovadora",
+            description: "Descubre los últimos avances científicos",
+        },
+        {
+            icon: Users,
+            title: "Networking Estudiantil",
+            description: "Conecta con estudiantes de toda la universidad",
+        },
+        {
+            icon: Trophy,
+            title: "Competencias y Premios",
+            description: "Participa en concursos y gana reconocimientos",
+        },
+    ]
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentFeature((prev) => (prev + 1) % features.length)
+        }, 3000)
+        return () => clearInterval(interval)
     }, [])
 
     return (
@@ -41,6 +73,17 @@ export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
                     </Button>
                 </div>
             </main>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-8 my-12">
+                {features.map((feature, index) => (
+                    <FeatureCard
+                        key={index}
+                        icon={feature.icon}
+                        title={feature.title}
+                        description={feature.description}
+                        highlighted={currentFeature === index}
+                    />
+                ))}
+            </div>
         </div>
     )
 }
