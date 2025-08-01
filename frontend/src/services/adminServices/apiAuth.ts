@@ -7,7 +7,6 @@ export const loginAdmin = async (correo: string, password: string) => {
             `${API_BASE}/auth/login`, { correo, password },
             { withCredentials: true }
         )
-
         return response.data
     } catch (error: any) {
         if (error.response) {

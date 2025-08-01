@@ -14,7 +14,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:3000
     container_name: csc-frontend
     ports:
       - "80:80"
+    env_file:
+      - ./frontend/.env
     restart: unless-stopped
