@@ -4,10 +4,16 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, Users, Trophy, Sparkles, BookOpen, Microscope } from "lucide-react"
 import Footer from "@/components/Footer"
 import logoUaaXL from "@/assets/UaaXL.png"
+import { useNavigate } from "react-router-dom"
 
-export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
+export default function WelcomePage() {
     const [isVisible, setIsVisible] = useState(false)
     const [currentFeature, setCurrentFeature] = useState(0)
+    const navigate = useNavigate()
+
+    const handleGoLogin = () => {
+        navigate("/user/auth")
+    }
 
     useEffect(() => {
         setIsVisible(true)
@@ -113,7 +119,7 @@ export default function WelcomePage({ onEnter }: { onEnter: () => void }) {
                                 </p>
 
                                 <Button
-                                    onClick={onEnter}
+                                    onClick={handleGoLogin}
                                     size="lg"
                                     className="bg-gradient-to-r from-[#002E5D] via-blue-700 to-blue-500 hover:from-blue-500 hover:via-blue-700 hover:to-[#002E5D] text-white font-bold py-6 px-12 rounded-2xl text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 group animate-gradient"
                                 >

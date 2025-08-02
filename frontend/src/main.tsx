@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 import App from "@/App"
 import '@/index.css'
 import { SidebarProvider } from "./context/SidebarContext"
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <BrowserRouter>

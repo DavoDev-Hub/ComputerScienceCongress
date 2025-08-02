@@ -1,4 +1,6 @@
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+
+// admin routes
 import AdminLayout from '@/layouts/AdminLayout'
 import ActivityPanel from '@/pages/admin/ActivityPanel'
 import ConferencePanel from '@/pages/admin/ConferencePanel'
@@ -9,12 +11,14 @@ import { PrivateRoute } from '@/components/adminComponents/auth/PrivateRoute'
 import AdminLogin from '@/pages/admin/LoginPanel'
 import WelcomePage from '@/pages/welcomePage'
 
+// user routes
+import AuthPage from './pages/user/authPage'
+
 function App() {
-    const navigate = useNavigate()
 
     return (
         <Routes>
-            <Route path="/" element={<WelcomePage onEnter={() => navigate("")} />} />
+            <Route path="/" element={<WelcomePage />} />
 
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<PrivateRoute />}>
@@ -26,7 +30,7 @@ function App() {
                     <Route path="registro" element={<AttendancePanel />} />
                 </Route>
             </Route>
-
+            <Route path="/user/auth" element={<AuthPage />} />
         </Routes>
     )
 }
