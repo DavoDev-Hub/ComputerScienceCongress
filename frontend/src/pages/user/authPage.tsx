@@ -4,28 +4,19 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { GraduationCap } from "lucide-react"
 import LoginUser from "@/pages/user/loginPanel"
-// import RegisterForm from "./register-form"
+import RegisterForm from "@/pages/user/registerPanel"
 
 function AuthPage() {
     const [isRegisterMode, setIsRegisterMode] = useState(false)
 
-    // const handleAuthSuccess = () => {
-    //     setTimeout(() => {
-    //         onAuthSuccess()
-    //     }, 500)
-    // }
+    const handleRegisterSuccess = () => {
+        setIsRegisterMode(false)
+    }
 
     return (
         <div className="min-h-screen flex flex-col relative overflow-hidden">
-            {/* Fondo animado */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200">
-                <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-[#002E5D]/25 to-blue-400/15 rounded-full animate-pulse blur-3xl"></div>
-                <div className="absolute top-20 right-20 w-80 h-80 bg-gradient-to-br from-blue-600/20 to-blue-300/10 rounded-full animate-bounce blur-2xl"></div>
-                <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-700/30 to-blue-500/20 rounded-full animate-pulse blur-2xl"></div>
-                <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-gradient-to-br from-blue-500/15 to-blue-300/10 rounded-full animate-float blur-xl"></div>
-                <div className="absolute bottom-1/3 right-1/4 w-56 h-56 bg-gradient-to-br from-blue-700/20 to-blue-500/15 rounded-full animate-float blur-xl" style={{ animationDelay: "1s" }}></div>
-                <div className="absolute top-1/4 right-1/3 w-32 h-32 bg-gradient-to-br from-blue-400/25 to-blue-200/15 rounded-full animate-bounce blur-lg" style={{ animationDelay: "0.5s" }}></div>
-                <div className="absolute bottom-1/4 left-1/3 w-24 h-24 bg-gradient-to-br from-blue-600/30 to-blue-400/20 rounded-full opacity-30 animate-pulse blur-lg" style={{ animationDelay: "2s" }}></div>
+
             </div>
 
             <main className="relative z-10 flex-grow flex items-center justify-center p-4 md:p-8">
@@ -52,6 +43,7 @@ function AuthPage() {
                                     exit={{ opacity: 0, x: -50 }}
                                     transition={{ duration: 0.3 }}
                                 >
+                                    <RegisterForm onRegisterSuccess={handleRegisterSuccess} />
                                 </motion.div>
                             ) : (
                                 <motion.div
@@ -72,7 +64,9 @@ function AuthPage() {
                                 onClick={() => setIsRegisterMode(!isRegisterMode)}
                                 className="text-[#002E5D] hover:text-blue-700 transition-colors"
                             >
-                                {isRegisterMode ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate aquí"}
+                                {isRegisterMode
+                                    ? "¿Ya tienes cuenta? Inicia sesión"
+                                    : "¿No tienes cuenta? Regístrate aquí"}
                             </Button>
                         </div>
                     </CardContent>
@@ -83,3 +77,4 @@ function AuthPage() {
 }
 
 export default AuthPage
+
