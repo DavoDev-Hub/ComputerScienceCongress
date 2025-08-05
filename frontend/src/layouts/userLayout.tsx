@@ -1,30 +1,14 @@
-import { useState } from "react"
-import StudentNavbar from "@/components/nav/navUser"
-import UserHeader from "@/components/userComponents/userHeader"
-import { Toaster } from "@/components/ui/sonner"
+import { Outlet } from "react-router-dom"
+import UserNavbar from "@/components/nav/navUser"
 
-interface userLayoutProps {
-    nombre: string
-    children: React.ReactNode
-    onLogout: () => void
-}
-
-export default function userLayout({ nombre, children, onLogout }: userLayoutProps) {
-    const [currentView, setCurrentView] = useState("inicio")
-
+export default function StudentLayout() {
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
-            <UserHeader nombre={nombre} onLogout={onLogout} />
+        <div className="flex flex-col min-h-screen">
+            <UserNavbar />
 
-            <div className="flex flex-grow">
-                <StudentNavbar currentView={currentView} setCurrentView={setCurrentView} />
-
-                <main className="flex-grow p-6 overflow-y-auto">
-                    {children}
-                </main>
-            </div>
-
-            <Toaster />
+            <main className="flex-1 px-4 py-6 md:px-10 md:py-8 bg-blue-50">
+                <Outlet />
+            </main>
         </div>
     )
 }

@@ -13,6 +13,7 @@ import WelcomePage from '@/pages/welcomePage'
 
 // user routes
 import AuthPage from './pages/user/authPage'
+import UserLayout from './layouts/userLayout'
 
 function App() {
 
@@ -30,7 +31,13 @@ function App() {
                     <Route path="registro" element={<AttendancePanel />} />
                 </Route>
             </Route>
+
             <Route path="/user/auth" element={<AuthPage />} />
+
+            <Route path="/user" element={<PrivateRoute />}>
+                <Route element={<UserLayout />}>
+                </Route>
+            </Route>
         </Routes>
     )
 }
