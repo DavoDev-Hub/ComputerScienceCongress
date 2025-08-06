@@ -1,28 +1,31 @@
-import { useEffect, useState } from "react"
-import { BookOpen, Gamepad2, Star, Clock } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-// import { getStudentActivities } from "@/services/userServices/apiActivities"
-// import { Activity } from "@/types/userTypes/activityTypes"
+import { useEffect, useState } from "react";
+import { BookOpen, Gamepad2, Star, Clock } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { getStudentDashboard } from "@/services/userServices/apiDashboard";
+import { Activity, Conference } from "@/types/userTypes/dashboardTypes";
+import StatCard from "@/components/userComponents/dashboardStatCard";
 
 const DashboardAlumno = () => {
-    const [enrolledActivities, setEnrolledActivities] = useState<Activity[]>([])
+    const [actividades, setActividades] = useState<Activity[]>([]);
+    const [, setConferencias] = useState<Conference[]>([]);
 
-    const academicCount = enrolledActivities.filter((a) => a.type === "academic" || a.type === "conference").length
-    const recreationalCount = enrolledActivities.filter((a) => a.type === "recreational").length
+    const academicCount = actividades.filter(a => a.tipo === "academic" || a.tipo === "conference").length;
+    const recreationalCount = actividades.filter(a => a.tipo === "recreational").length;
 
     useEffect(() => {
-        const fetchActivities = async () => {
+        const fetchDashboard = async () => {
             try {
-                const response = await getStudentActivities()
-                setEnrolledActivities(response)
+                const { actividades, conferencias } = await getStudentDashboard();
+                setActividades(actividades);
+                setConferencias(conferencias);
             } catch (error) {
-                console.error("Error cargando actividades", error)
+                console.error("Error cargando actividades", error);
             }
-        }
+        };
 
-        fetchActivities()
-    }, [])
+        fetchDashboard();
+    }, []);
 
     return (
         <div className="space-y-8">
@@ -40,43 +43,53 @@ const DashboardAlumno = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <StatCard icon={BookOpen} count={academicCount} label="Actividades Académicas" />
                 <StatCard icon={Gamepad2} count={recreationalCount} label="Actividades Recreativas" />
-                <StatCard icon={Star} count={enrolledActivities.length} label="Total Inscritas" />
+                <StatCard icon={Star} count={actividades.length} label="Total Inscritas" />
             </div>
 
             {/* Próximas actividades */}
-            {enrolledActivities.length > 0 && (
+            {(actividades.length > 0 || conferencias.length > 0) && (
                 <Card className="bg-white/80 backdrop-blur-xl border-white/20 shadow-2xl">
                     <CardHeader>
                         <CardTitle className="text-[#002E5D] flex items-center space-x-2">
                             <Clock className="w-5 h-5" />
-                            <span>Próximas Actividades</span>
+                            <span>Próximos Eventos</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
-                            {enrolledActivities.slice(0, 3).map((activity) => (
-                                <div key={activity.id} className="flex items-center space-x-4 p-4 bg-white/60 rounded-2xl shadow-lg">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-[#002E5D] to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-                                        <activity.icon className="w-6 h-6 text-white" />
+                            {[...actividades.map(a => ({ ...a, tipoEntidad: "actividad" })), ...conferencias.map(c => ({ ...c, tipoEntidad: "conferencia" }))]
+                                .sort((a, b) => new Date(a.fecha || "").getTime() - new Date(b.fecha || "").getTime())
+                                .slice(0, 3)
+                                .map((evento, index) => (
+                                    <div key={index} className="flex items-center space-x-4 p-4 bg-white/60 rounded-2xl shadow-lg">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-[#002E5D] to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+                                            <Clock className="w-6 h-6 text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h4 className="font-semibold text-[#002E5D]">{evento.nombre}</h4>
+                                            <p className="text-sm text-gray-600">
+                                                {new Date(evento.fecha || "").toLocaleDateString()} •{" "}
+                                                {new Date(evento.horaInicio || "").toLocaleTimeString([], {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit"
+                                                })}
+                                            </p>
+                                        </div>
+                                        <Badge
+                                            variant="secondary"
+                                            className={`bg-blue-500/20 text-[#002E5D] border-blue-500/30`}
+                                        >
+                                            {evento.tipoEntidad === "actividad" ? evento.tipo : "Conferencia"}
+                                        </Badge>
                                     </div>
-                                    <div className="flex-1">
-                                        <h4 className="font-semibold text-[#002E5D]">{activity.title}</h4>
-                                        <p className="text-sm text-gray-600">
-                                            {activity.date} • {activity.time}
-                                        </p>
-                                    </div>
-                                    <Badge variant="secondary" className="bg-blue-500/20 text-[#002E5D] border-blue-500/30">
-                                        {activity.category}
-                                    </Badge>
-                                </div>
-                            ))}
+                                ))}
                         </div>
                     </CardContent>
                 </Card>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default DashboardAlumno
+export default DashboardAlumno;
 

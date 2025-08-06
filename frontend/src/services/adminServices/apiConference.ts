@@ -1,6 +1,6 @@
 import { Conferencia } from "@/types/adminTypes/conference"
 const API_BASE = `${import.meta.env.VITE_API_URL}/admin`
-import { api } from "./axiosInstance"
+import { api } from "../axiosInstance"
 
 export const getConferencias = async (): Promise<Conferencia[]> => {
     const res = await api.get(`${API_BASE}/conferencias`)

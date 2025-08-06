@@ -1,20 +1,22 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
-    icon: React.ElementType
-    count: number
-    label: string
+    icon: LucideIcon;
+    count: number;
+    label: string;
 }
 
-export const StatCard = ({ icon: Icon, count, label }: StatCardProps) => (
-    <Card className="bg-white/80 backdrop-blur-xl border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
-        <CardContent className="p-6 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#002E5D] to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <Icon className="w-8 h-8 text-white" />
+const StatCard = ({ icon: Icon, count, label }: StatCardProps) => {
+    return (
+        <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 flex flex-col items-center text-center border border-white/20">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#002E5D] to-blue-700 flex items-center justify-center shadow-md mb-4">
+                <Icon className="w-6 h-6 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-[#002E5D] mb-2">{count}</h3>
-            <p className="text-gray-600">{label}</p>
-        </CardContent>
-    </Card>
-)
+            <div className="text-3xl font-bold text-[#002E5D]">{count}</div>
+            <div className="text-sm text-gray-600">{label}</div>
+        </div>
+    );
+};
+
+export default StatCard;
 

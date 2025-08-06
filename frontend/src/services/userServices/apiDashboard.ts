@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "../axiosInstance";
 import { Activity, Conference } from "@/types/userTypes/dashboardTypes";
 const API_BASE = `${import.meta.env.VITE_API_URL}/user`
 
@@ -8,7 +8,7 @@ export interface DashboardResponse {
 }
 
 export const getStudentDashboard = async (): Promise<DashboardResponse> => {
-    const response = await axios.get("/api/user/dashboard", { withCredentials: true });
+    const response = await api.get(`${API_BASE}/dashboard`);
     return response.data;
 };
 

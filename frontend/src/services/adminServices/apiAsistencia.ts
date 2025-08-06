@@ -1,5 +1,5 @@
 import { Asistencia } from "@/types/adminTypes/asistencia"
-import { api } from "./axiosInstance"
+import { api } from "../axiosInstance"
 const API_BASE = `${import.meta.env.VITE_API_URL}/admin`
 
 export const getAllAlumnosWithAsistencias = async () => {
