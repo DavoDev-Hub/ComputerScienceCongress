@@ -8,7 +8,7 @@ import StatCard from "@/components/userComponents/dashboardStatCard";
 
 const DashboardAlumno = () => {
     const [actividades, setActividades] = useState<Activity[]>([]);
-    const [, setConferencias] = useState<Conference[]>([]);
+    const [conferencias, setConferencias] = useState<Conference[]>([]);
 
     const academicCount = actividades.filter(a => a.tipo === "academic" || a.tipo === "conference").length;
     const recreationalCount = actividades.filter(a => a.tipo === "recreational").length;
@@ -79,7 +79,7 @@ const DashboardAlumno = () => {
                                             variant="secondary"
                                             className={`bg-blue-500/20 text-[#002E5D] border-blue-500/30`}
                                         >
-                                            {evento.tipoEntidad === "actividad" ? evento.tipo : "Conferencia"}
+                                            {evento.tipoEntidad === "actividad" && "tipo" in evento ? evento.tipo : "Conferencia"}
                                         </Badge>
                                     </div>
                                 ))}
