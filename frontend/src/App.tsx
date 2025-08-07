@@ -12,8 +12,9 @@ import AdminLogin from '@/pages/admin/LoginPanel'
 import WelcomePage from '@/pages/welcomePage'
 
 // user routes
-import AuthPage from './pages/user/authPage'
-import UserLayout from './layouts/userLayout'
+import AuthPage from '@/pages/user/authPage'
+import UserLayout from '@/layouts/userLayout'
+import DashboardAlumno from '@/pages/user/DashboardPanel'
 
 function App() {
 
@@ -33,9 +34,9 @@ function App() {
             </Route>
 
             <Route path="/user/auth" element={<AuthPage />} />
-
             <Route path="/user" element={<PrivateRoute />}>
                 <Route element={<UserLayout />}>
+                    <Route path="dashboard" element={<DashboardAlumno />} />
                 </Route>
             </Route>
         </Routes>

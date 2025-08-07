@@ -48,21 +48,17 @@ export default function WelcomePage() {
 
     return (
         <div className="flex flex-col flex-grow relative overflow-hidden">
-            {/* Fondo Dinámico Inspirado en el Logo  */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200">
-                {/* Formas Orgánicas Grandes */}
                 <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-[#002E5D]/25 to-blue-400/15 rounded-full animate-pulse blur-3xl"></div>
                 <div className="absolute top-20 right-20 w-80 h-80 bg-gradient-to-br from-blue-600/20 to-blue-300/10 rounded-full animate-bounce blur-2xl"></div>
                 <div className="absolute bottom-20 left-20 w-72 h-72 bg-gradient-to-br from-blue-700/30 to-blue-500/20 rounded-full animate-pulse blur-2xl"></div>
 
-                {/* Formas Orgánicas Medianas */}
                 <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-gradient-to-br from-blue-500/15 to-blue-300/10 rounded-full animate-float blur-xl"></div>
                 <div
                     className="absolute bottom-1/3 right-1/4 w-56 h-56 bg-gradient-to-br from-blue-700/20 to-blue-500/15 rounded-full animate-float blur-xl"
                     style={{ animationDelay: "1s" }}
                 ></div>
 
-                {/* Elementos Flotantes Pequeños */}
                 <div
                     className="absolute top-1/4 right-1/3 w-32 h-32 bg-gradient-to-br from-blue-400/25 to-blue-200/15 rounded-full animate-bounce blur-lg"
                     style={{ animationDelay: "0.5s" }}
@@ -71,14 +67,8 @@ export default function WelcomePage() {
                     className="absolute bottom-1/4 left-1/3 w-24 h-24 bg-gradient-to-br from-blue-600/30 to-blue-400/20 rounded-full opacity-30 animate-pulse blur-lg"
                     style={{ animationDelay: "2s" }}
                 ></div>
-
-                {/* Ondas de Fondo */}
-
             </div>
-
-            {/* Contenido Principal */}
             <div className="relative z-10 flex-grow flex flex-col">
-                {/* Header con Logo */}
                 <header className="pt-8 pb-2 px-8">
                     <div className="flex items-center justify-center space-x-4">
                         <div className="text-center">
@@ -87,7 +77,6 @@ export default function WelcomePage() {
                     </div>
                 </header>
 
-                {/* Hero Section */}
                 <main className="flex-1 flex items-center justify-center px-8">
                     <div className="max-w-6xl mx-auto text-center">
                         <div
@@ -128,7 +117,6 @@ export default function WelcomePage() {
                                 </Button>
                             </div>
 
-                            {/* Tarjetas de Características Rotativas */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                                 {features.map((feature, index) => (
                                     <Card
@@ -152,7 +140,6 @@ export default function WelcomePage() {
                                 ))}
                             </div>
 
-                            {/* Estadísticas Impresionantes */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                                 <div className="text-center">
                                     <div className="text-5xl font-black bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent mb-2">
@@ -179,7 +166,6 @@ export default function WelcomePage() {
 
             </div>
 
-            {/* Partículas Flotantes */}
             <div className="absolute inset-0 pointer-events-none">
                 {[...Array(20)].map((_, i) => (
                     <div

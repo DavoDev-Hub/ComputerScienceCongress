@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -10,6 +11,7 @@ function LoginUser() {
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
 
     const UAA_DOMAIN = "@edu.uaa.mx"
 
@@ -26,12 +28,15 @@ function LoginUser() {
         try {
             await loginUser(email, password)
             setMessage({ type: "success", text: "¡Inicio de sesión exitoso!" })
+
+            navigate("/user/dashboard")
         } catch (error: any) {
             setMessage({ type: "error", text: error.message })
         } finally {
             setIsLoading(false)
         }
     }
+
     return (
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
             <div>
@@ -82,7 +87,9 @@ function LoginUser() {
 
             {message && (
                 <div
-                    className={`mt-4 p-3 rounded-xl text-sm ${message.type === "error" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
+                    className={`mt-4 p-3 rounded-xl text-sm ${message.type === "error"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-green-100 text-green-700"
                         }`}
                 >
                     {message.text}
@@ -90,4 +97,7 @@ function LoginUser() {
             )}
         </form>
     )
-} export default LoginUser
+}
+
+export default LoginUser
+
