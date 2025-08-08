@@ -17,7 +17,7 @@ import UserLayout from '@/layouts/userLayout'
 import DashboardAlumno from '@/pages/user/DashboardPanel'
 import ActivitiesPage from '@/pages/user/ActivitiesPanel'
 import ConferencePage from '@/pages/user/ConferencesPanel'
-
+import SchedulePage from "@/pages/user/SchedulePanel"
 function App() {
 
     return (
@@ -41,6 +41,7 @@ function App() {
                     <Route path="dashboard" element={<DashboardAlumno />} />
                     <Route path="actividades" element={<ActivitiesPage />} />
                     <Route path="conferencias" element={<ConferencePage />} />
+                    <Route path="horario" element={<SchedulePage />} />
                 </Route>
             </Route>
         </Routes>
