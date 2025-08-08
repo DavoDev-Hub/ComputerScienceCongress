@@ -2,7 +2,7 @@ export interface ActivityDTO {
     id: number
     nombre: string
     descripcion: string
-    tipo: "academic" | "recreational" | string
+    tipo: "academico" | "recreativo" | string
     lugar?: string | null
     fecha?: string | null
     horaInicio?: string | null
@@ -40,8 +40,8 @@ export const mapDTOToUI = (a: ActivityDTO): UIActivity => {
     return {
         id: String(a.id),
         title: a.nombre,
-        icon: a.tipo === "academic" ? "BookOpen" : "Gamepad2",
-        category: a.tipo === "academic" ? "Académica" : "Recreativa",
+        icon: a.tipo === "academico" ? "BookOpen" : "Gamepad2",
+        category: a.tipo === "academico" ? "Académica" : "Recreativa",
         description: a.descripcion,
         date: a.fecha ? new Date(a.fecha).toLocaleDateString() : "Fecha por definir",
         time: start ? start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "—",

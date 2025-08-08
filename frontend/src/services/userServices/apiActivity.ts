@@ -2,8 +2,9 @@
 import { api } from "@/services/axiosInstance"
 import { ActivityDTO, EnrollmentDTO } from "@/types/userTypes/activity"
 
-// GET /user/actividades?tipo=academic|recreational
-export const fetchActivities = async (tipo?: "academic" | "recreational") => {
+
+// GET /user/actividades?tipo=academico|recreativo
+export const fetchActivities = async (tipo?: "academico" | "recreativo") => {
     const url = tipo ? `/user/actividades?tipo=${tipo}` : `/user/actividades`
     const { data } = await api.get<ActivityDTO[]>(url)
     return data
@@ -20,4 +21,3 @@ export const enrollToActivity = async (id_actividad: number) => {
     const { data } = await api.post(`/user/actividades/inscribirse`, { id_actividad })
     return data
 }
-

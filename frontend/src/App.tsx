@@ -15,7 +15,8 @@ import WelcomePage from '@/pages/welcomePage'
 import AuthPage from '@/pages/user/authPage'
 import UserLayout from '@/layouts/userLayout'
 import DashboardAlumno from '@/pages/user/DashboardPanel'
-import ActivitiesPage from './pages/user/ActivitiesPanel'
+import ActivitiesPage from '@/pages/user/ActivitiesPanel'
+import ConferencePage from '@/pages/user/ConferencesPanel'
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
                 <Route element={<UserLayout />}>
                     <Route path="dashboard" element={<DashboardAlumno />} />
                     <Route path="actividades" element={<ActivitiesPage />} />
+                    <Route path="conferencias" element={<ConferencePage />} />
                 </Route>
             </Route>
         </Routes>

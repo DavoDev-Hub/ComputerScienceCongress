@@ -7,40 +7,43 @@ import { ActivitiesView } from "@/components/userComponents/ActivitiesView"
 import { fetchActivities, fetchMyEnrollments, enrollToActivity } from "@/services/userServices/apiActivity"
 import { ActivityDTO, UIActivity, mapDTOToUI } from "@/types/userTypes/activity"
 
-export default function ActivitiesPage() {
+export default function ActivitiesPanel() {
     const [loading, setLoading] = useState(true)
-    const [academyDTO, setAcademyDTO] = useState<ActivityDTO[]>([])
+    const [error, setError] = useState<string | null>(null)
+
+    const [acadDTO, setAcadDTO] = useState<ActivityDTO[]>([])
     const [recreDTO, setRecreDTO] = useState<ActivityDTO[]>([])
     const [enrollments, setEnrollments] = useState<number[]>([])
 
-    // modal
     const [confirmOpen, setConfirmOpen] = useState(false)
     const [selected, setSelected] = useState<UIActivity | null>(null)
     const [submitting, setSubmitting] = useState(false)
 
-    // cargar datos iniciales
     useEffect(() => {
         (async () => {
             try {
                 setLoading(true)
+                setError(null)
                 const [acad, recre, my] = await Promise.all([
-                    fetchActivities("academic"),
-                    fetchActivities("recreational"),
+                    fetchActivities("academico"),
+                    fetchActivities("recreativo"),
                     fetchMyEnrollments(),
                 ])
-                setAcademyDTO(acad)
+                setAcadDTO(acad)
                 setRecreDTO(recre)
-                setEnrollments(my.map(i => i.actividad.id))
+                setEnrollments(my.map((i) => i.actividad.id))
+            } catch (e: any) {
+                setError(e?.response?.data?.error ?? "Error al cargar actividades")
             } finally {
                 setLoading(false)
             }
         })()
     }, [])
 
-    // map DTO -> UI
+    // DTO -> UI para el componente visual
     const academicActivities = useMemo<UIActivity[]>(
-        () => academyDTO.map(mapDTOToUI),
-        [academyDTO]
+        () => acadDTO.map(mapDTOToUI),
+        [acadDTO]
     )
     const recreationalActivities = useMemo<UIActivity[]>(
         () => recreDTO.map(mapDTOToUI),
@@ -49,31 +52,30 @@ export default function ActivitiesPage() {
 
     const isEnrolled = (id: string) => enrollments.includes(Number(id))
 
-    // abrir modal
     const onEnroll = (activity: UIActivity) => {
         setSelected(activity)
         setConfirmOpen(true)
     }
 
-    // confirmar inscripción
     const confirmEnroll = async () => {
         if (!selected) return
         try {
             setSubmitting(true)
             await enrollToActivity(Number(selected.id))
-            // refrescar estados (inscripciones y contadores)
+
+            // refrescar inscripciones y contadores
             const [my, updatedAcad, updatedRecre] = await Promise.all([
                 fetchMyEnrollments(),
-                fetchActivities("academic"),
-                fetchActivities("recreational"),
+                fetchActivities("academico"),
+                fetchActivities("recreativo"),
             ])
-            setEnrollments(my.map(i => i.actividad.id))
-            setAcademyDTO(updatedAcad)
+            setEnrollments(my.map((i) => i.actividad.id))
+            setAcadDTO(updatedAcad)
             setRecreDTO(updatedRecre)
+
             setConfirmOpen(false)
             setSelected(null)
         } catch (err: any) {
-            // muestra mensaje del backend (409: cupo/ya tiene del tipo/empalme)
             alert(err?.response?.data?.error ?? "No se pudo inscribir")
         } finally {
             setSubmitting(false)
@@ -81,17 +83,18 @@ export default function ActivitiesPage() {
     }
 
     if (loading) return <div className="p-6 text-sm text-gray-600 dark:text-gray-300">Cargando actividades…</div>
+    if (error) return <div className="p-6 text-sm text-red-600">{error}</div>
 
     return (
         <>
-            {/* Tabs tipo “navbar pequeña” como en admin */}
-            <Tabs defaultValue="academic" className="space-y-8">
+            {/* Tabs estilo “navbar pequeña” */}
+            <Tabs defaultValue="academicas" className="space-y-8">
                 <TabsList className="mx-auto grid grid-cols-2 w-full max-w-md">
-                    <TabsTrigger value="academic">Académicas</TabsTrigger>
-                    <TabsTrigger value="recreational">Recreativas</TabsTrigger>
+                    <TabsTrigger value="academicas">Académicas</TabsTrigger>
+                    <TabsTrigger value="recreativas">Recreativas</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="academic">
+                <TabsContent value="academicas">
                     <ActivitiesView
                         activities={academicActivities}
                         title="Actividades Académicas"
@@ -102,7 +105,7 @@ export default function ActivitiesPage() {
                     />
                 </TabsContent>
 
-                <TabsContent value="recreational">
+                <TabsContent value="recreativas">
                     <ActivitiesView
                         activities={recreationalActivities}
                         title="Actividades Recreativas"
@@ -127,7 +130,7 @@ export default function ActivitiesPage() {
                         <p>
                             <b>Importante:</b> no podrás desinscribirte de esta actividad. Asegúrate de que es la que deseas.
                         </p>
-                        <p>Recuerda: solo puedes inscribirte a 1 académica y 1 recreativa.</p>
+                        <p>Regla: solo puedes inscribirte a 1 académica y 1 recreativa.</p>
                     </div>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setConfirmOpen(false)} disabled={submitting}>
