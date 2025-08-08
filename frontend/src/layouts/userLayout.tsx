@@ -11,7 +11,9 @@ export default function StudentLayout() {
                 }`}
         >
             <UserNavbar />
-            <main className="flex-1 px-4 py-6 md:px-10 md:py-8 transition-colors duration-500 bg-blue-50 text-gray-900 dark:bg-black dark:text-white">
+            <main className="flex-1 px-4 py-6 md:px-10 md:py-8 transition-colors duration-500
+  bg-blue-50 text-gray-900
+  dark:bg-[#121212] dark:text-gray-100">
                 <Outlet />
             </main>
         </div>
