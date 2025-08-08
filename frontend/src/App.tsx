@@ -15,6 +15,7 @@ import WelcomePage from '@/pages/welcomePage'
 import AuthPage from '@/pages/user/authPage'
 import UserLayout from '@/layouts/userLayout'
 import DashboardAlumno from '@/pages/user/DashboardPanel'
+import ActivitiesPage from './pages/user/ActivitiesPanel'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
             <Route path="/user" element={<PrivateRoute />}>
                 <Route element={<UserLayout />}>
                     <Route path="dashboard" element={<DashboardAlumno />} />
+                    <Route path="actividades" element={<ActivitiesPage />} />
                 </Route>
             </Route>
         </Routes>

@@ -1,24 +1,23 @@
+// src/services/user/activityService.ts
 import { api } from "@/services/axiosInstance"
 import { ActivityDTO, EnrollmentDTO } from "@/types/userTypes/activity"
-const API_BASE = `${import.meta.env.VITE_API_URL}/user`
 
-
-// GET /user/activities?tipo=academic|recreational
+// GET /user/actividades?tipo=academic|recreational
 export const fetchActivities = async (tipo?: "academic" | "recreational") => {
-    const url = tipo ? `${API_BASE}activities?tipo=${tipo}` : `/user/actividad`
+    const url = tipo ? `/user/actividades?tipo=${tipo}` : `/user/actividades`
     const { data } = await api.get<ActivityDTO[]>(url)
     return data
 }
 
-// GET /user/enrollments
+// GET /user/actividades/inscripciones
 export const fetchMyEnrollments = async () => {
-    const { data } = await api.get<EnrollmentDTO[]>(`/user/enrollments`)
+    const { data } = await api.get<EnrollmentDTO[]>(`/user/actividades/inscripciones`)
     return data
 }
 
-// POST /user/activities/enroll
+// POST /user/actividades/inscribirse
 export const enrollToActivity = async (id_actividad: number) => {
-    const { data } = await api.post(`/user/activities/enroll`, { id_actividad })
+    const { data } = await api.post(`/user/actividades/inscribirse`, { id_actividad })
     return data
 }
 
