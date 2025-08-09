@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import {
     BadgeCheck,
     CalendarDays,
@@ -7,7 +7,8 @@ import {
     User,
     Menu,
     Moon,
-    Sun
+    Sun,
+    LogOut
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -21,6 +22,7 @@ import { useThemeContext } from "@/context/ThemeContext"
 function NavbarUser() {
     const nombre = "Ana Martínez"
     const { isDark, toggleTheme } = useThemeContext()
+    const navigate = useNavigate()
 
     const navItems = [
         { label: "Dashboard", to: "/user/dashboard", icon: <User className="w-4 h-4" /> },
@@ -29,6 +31,11 @@ function NavbarUser() {
         { label: "Mi Horario", to: "/user/horario", icon: <CalendarDays className="w-4 h-4" /> },
         { label: "Mis QR", to: "/user/qr", icon: <QrCode className="w-4 h-4" /> },
     ]
+
+    const handleLogout = () => {
+        localStorage.removeItem("token_alumno")
+        navigate("/user/auth")
+    }
 
     return (
         <header className="bg-gradient-to-r from-[#002E5D]/90 via-blue-700/90 to-blue-500/90 shadow-md border-b border-blue-800 sticky top-0 z-50 text-white">
@@ -74,14 +81,24 @@ function NavbarUser() {
                                 </div>
                                 <div className="p-4 border-t border-blue-800 flex items-center justify-between">
                                     <span className="text-blue-100 text-sm">¡Hola, {nombre}!</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={toggleTheme}
-                                        className="text-blue-100 hover:text-yellow-300"
-                                    >
-                                        {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={toggleTheme}
+                                            className="text-blue-100 hover:text-yellow-300"
+                                        >
+                                            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                                        </Button>
+                                        <Button
+                                            variant="destructive"
+                                            size="icon"
+                                            onClick={handleLogout}
+                                            className="bg-red-600 hover:bg-red-700 text-white"
+                                        >
+                                            <LogOut className="w-5 h-5" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </SheetContent>
@@ -112,6 +129,15 @@ function NavbarUser() {
                     >
                         {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                         <span className="sr-only">Cambiar tema</span>
+                    </Button>
+                    {/* Botón de logout en desktop */}
+                    <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={handleLogout}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                    >
+                        <LogOut className="w-5 h-5" />
                     </Button>
                 </div>
             </div>

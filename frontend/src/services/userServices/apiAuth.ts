@@ -1,4 +1,5 @@
 import axios from "axios"
+import { api } from "../axiosInstance"
 
 const API_BASE = `${import.meta.env.VITE_API_URL}/user/auth`
 import { RegisterUserData } from "@/types/userTypes/authTypes"
@@ -34,3 +35,8 @@ export const registerUser = async (data: RegisterUserData) => {
     }
 }
 
+export const logoutAlumno = async () => {
+    await api.post("/alumnos/logout")
+
+    localStorage.removeItem("token_alumno")
+}

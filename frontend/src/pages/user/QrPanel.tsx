@@ -12,7 +12,9 @@ import {
     getQRConferencia, generarQRConferencia,
     type QrResponse
 } from "@/services/userServices/apiQR"
+import { fetchMyAttendance, type MyAttendanceDTO } from "@/services/userServices/apiAttendance"
 
+import type { ActivityDTO } from "@/types/userTypes/activity"
 import type { ConferenceDTO } from "@/types/userTypes/conference"
 import { useQRCode } from "@/hooks/useQRCode"
 
@@ -31,26 +33,43 @@ interface QRItem {
 export default function QRPanel() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const [items, setItems] = useState<QRItem[]>([])
 
+    const [items, setItems] = useState<QRItem[]>([])
+    const [attendance, setAttendance] = useState<MyAttendanceDTO[]>([])
+
+    // modal QR
     const [open, setOpen] = useState(false)
     const [activeQR, setActiveQR] = useState<{ title: string, dataURL: string } | null>(null)
     const [generating, setGenerating] = useState(false)
 
     const { toDataURL } = useQRCode()
 
+    // Construye un Set para saber cuáles ya están registrados
+    const attendedSet = useMemo(() => {
+        const s = new Set<string>()
+        for (const a of attendance) {
+            if (a.id_actividad) s.add(`act-${a.id_actividad}`)
+            if (a.id_conferencia) s.add(`conf-${a.id_conferencia}`)
+        }
+        return s
+    }, [attendance])
+
+    // Carga inicial: inscripciones, conferencias, asistencias y QR activos
     useEffect(() => {
         (async () => {
             try {
                 setLoading(true)
                 setError(null)
 
-                const [ins, confs] = await Promise.all([
-                    fetchMyEnrollments(),  // [{ actividad }]
-                    fetchConferences(),    // ConferenceDTO[]
+                const [ins, confs, myAtt] = await Promise.all([
+                    fetchMyEnrollments(),   // [{ actividad: ActivityDTO }]
+                    fetchConferences(),     // ConferenceDTO[]
+                    fetchMyAttendance(),    // [{ id_actividad?, id_conferencia? }]
                 ])
 
-                const acts: QRItem[] = ins.map(({ actividad }) => ({
+                setAttendance(myAtt)
+
+                const acts: QRItem[] = ins.map(({ actividad }: { actividad: ActivityDTO }) => ({
                     kind: "actividad",
                     id: actividad.id,
                     title: actividad.nombre,
@@ -60,7 +79,7 @@ export default function QRPanel() {
                     qr: null,
                 }))
 
-                const cf: QRItem[] = confs.map((c: ConferenceDTO) => ({
+                const cf: QRItem[] = (confs as ConferenceDTO[]).map((c) => ({
                     kind: "conferencia",
                     id: c.id,
                     title: c.nombre,
@@ -70,15 +89,18 @@ export default function QRPanel() {
                     qr: null,
                 }))
 
+                const merged = [...acts, ...cf]
+
+                // Intentar traer QR activo para cada item
                 const withQR = await Promise.all(
-                    [...acts, ...cf].map(async (it) => {
+                    merged.map(async (it) => {
                         try {
                             const qr = it.kind === "actividad"
                                 ? await getQRActividad(it.id)
                                 : await getQRConferencia(it.id)
                             return { ...it, qr }
                         } catch {
-                            return it
+                            return it // si no hay QR activo, lo dejamos null
                         }
                     })
                 )
@@ -139,26 +161,65 @@ export default function QRPanel() {
         }
     }
 
+    // Botón manual para actualizar estado de “Registrado”
+    const refreshAttendance = async () => {
+        try {
+            const myAtt = await fetchMyAttendance()
+            setAttendance(myAtt)
+        } catch {
+            // opcional: toast
+        }
+    }
+
+    // (Opcional) polling mientras el modal está abierto (para ver “Registrado” al vuelo)
+    useEffect(() => {
+        if (!open) return
+        const t = setInterval(refreshAttendance, 3000)
+        return () => clearInterval(t)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open])
+
     if (loading) return <div className="p-6 text-sm text-gray-600 dark:text-gray-300">Cargando mis QR…</div>
     if (error) return <div className="p-6 text-sm text-red-600">{error}</div>
 
     return (
         <>
-            <div className="text-center space-y-1 mb-6">
-                <h2 className="text-3xl font-bold text-[#002E5D] dark:text-gray-100">Mis Códigos QR</h2>
-                <p className="text-gray-600 dark:text-gray-400">Genera y muestra tus QR para registrar asistencia</p>
+            <div className="flex items-center justify-between mb-4">
+                <div className="text-left space-y-1">
+                    <h2 className="text-3xl font-bold text-[#002E5D] dark:text-gray-100">Mis Códigos QR</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Genera y muestra tus QR para registrar asistencia</p>
+                </div>
+                <Button variant="outline" onClick={refreshAttendance}>
+                    Actualizar estado
+                </Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {sorted.map((it) => {
                     const expired = isExpired(it.qr)
-                    const statusText = expired ? "Expirado" : "Activo"
+                    const key = it.kind === "actividad" ? `act-${it.id}` : `conf-${it.id}`
+                    const isRegistered = attendedSet.has(key)
+
+                    let statusText = "Activo"
+                    let variant: "default" | "destructive" = "default"
+                    let extraClass = "bg-green-500"
+
+                    if (isRegistered) {
+                        statusText = "Registrado"
+                        extraClass = "bg-blue-600"
+                        variant = "default"
+                    } else if (expired) {
+                        statusText = "Expirado"
+                        extraClass = ""
+                        variant = "destructive"
+                    }
+
                     return (
                         <Card key={`${it.kind}-${it.id}`} className="bg-white/80 dark:bg-[#1F1F1F] backdrop-blur-xl border-white/20 dark:border-gray-800 shadow-2xl">
                             <CardHeader>
                                 <CardTitle className="text-[#002E5D] dark:text-gray-100 flex items-center justify-between">
                                     <span className="text-lg truncate">{it.title}</span>
-                                    <Badge variant={expired ? "destructive" : "default"} className={!expired ? "bg-green-500" : ""}>
+                                    <Badge variant={variant} className={extraClass}>
                                         {statusText}
                                     </Badge>
                                 </CardTitle>
