@@ -18,6 +18,7 @@ import DashboardAlumno from '@/pages/user/DashboardPanel'
 import ActivitiesPage from '@/pages/user/ActivitiesPanel'
 import ConferencePage from '@/pages/user/ConferencesPanel'
 import SchedulePage from "@/pages/user/SchedulePanel"
+import QrPage from "@/pages/user/QrPanel"
 function App() {
 
     return (
@@ -42,6 +43,7 @@ function App() {
                     <Route path="actividades" element={<ActivitiesPage />} />
                     <Route path="conferencias" element={<ConferencePage />} />
                     <Route path="horario" element={<SchedulePage />} />
+                    <Route path="qr" element={<QrPage />} />
                 </Route>
             </Route>
         </Routes>

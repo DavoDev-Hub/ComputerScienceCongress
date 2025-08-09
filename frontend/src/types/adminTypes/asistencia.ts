@@ -6,6 +6,7 @@ export interface Asistencia {
     fecha_asistencia: string
 }
 
+
 export interface AttendanceRecord {
     id?: number
     student: {
